@@ -8,9 +8,13 @@
     ```bash
     cds add nodejs
     ```
-- [add typescript support](https://cap.cloud.sap/docs/node.js/typescript#enable-typescript-support):
+- [add typescript support](https://cap.cloud.sap/docs/node.js/typescript#enable-typescript-support) dev dependency:
     ```bash
     cds add typescript
+    ```
+- [add cds types](https://cap.cloud.sap/docs/node.js/typescript#cds-watch) dev dependency:
+    ```bash
+    npm add @cap-js/cds-types
     ```
 - [run in dev mode](https://cap.cloud.sap/docs/node.js/typescript#cds-watch) (auto reload):
     ```bash
