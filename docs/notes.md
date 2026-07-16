@@ -12,4 +12,8 @@
     ```bash
     cds add typescript
     ```
+- [run in dev mode](https://cap.cloud.sap/docs/node.js/typescript#cds-watch) (auto reload):
+    ```bash
+    npm run watch
+    ```
  
