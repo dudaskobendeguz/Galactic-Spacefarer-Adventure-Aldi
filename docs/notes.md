@@ -20,4 +20,8 @@
     ```bash
     npm run watch
     ```
+
+### Notes:
+ 
+ - [] [generating-model-types-automatically](https://cap.cloud.sap/docs/node.js/typescript#generating-model-types-automatically)
  
