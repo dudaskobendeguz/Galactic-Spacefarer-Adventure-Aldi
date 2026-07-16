@@ -14,7 +14,8 @@
     "@cap-js/cds-typer": ">=0.1"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "watch": "cds watch"
   },
   "private": true,
   "imports": {

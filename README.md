@@ -11,13 +11,20 @@ File or Folder | Purpose
 `app/` | content for UI frontends goes here
 `db/` | your domain models and data go here
 `srv/` | your service models and code go here
-`readme.md` | this getting started guide
+`README.md` | this getting started guide
 
 ## Next Steps
 
-- Open a new terminal and run `cds watch`
+- Install dependencies: `npm install`
+- Start in development mode (auto-reload): `npm run watch`
+- Start in standard mode: `npm run start`
 - (in VS Code simply choose _**Terminal** > Run Task > cds watch_)
 - Start with your domain model, in a CDS file in `db/`
+
+## Available Scripts
+
+- `npm run watch` runs `cds watch` for local development with live reload.
+- `npm run start` runs `cds-serve` for a standard server start.
 
 ## Learn More
 
