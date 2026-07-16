@@ -8,4 +8,8 @@
     ```bash
     cds add nodejs
     ```
+- [add typescript support](https://cap.cloud.sap/docs/node.js/typescript#enable-typescript-support):
+    ```bash
+    cds add typescript
+    ```
  
