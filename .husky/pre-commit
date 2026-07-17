@@ -1,0 +1,5 @@
+echo "Running CDS compile check..."
+
+npm run compile:db 2>&1
+
+echo "CDS compile passed."

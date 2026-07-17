@@ -11,13 +11,16 @@
     "@cap-js/sqlite": "^3",
     "@sap/cds-dk": "^10.0.4",
     "@types/node": "^24.0.0",
+    "husky": "^9.1.7",
     "tsx": "^4",
     "typescript": "^6.0.0"
   },
   "scripts": {
     "start": "cds-serve",
     "dev": "cds watch",
-    "repl": "cds repl ./"
+    "repl": "cds repl ./",
+    "compile:db": "cds compile './db' --to sql",
+    "prepare": "husky"
   },
   "private": true,
   "imports": {
