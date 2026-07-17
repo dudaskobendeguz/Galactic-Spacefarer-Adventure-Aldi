@@ -20,6 +20,19 @@
     ```bash
     npm run watch
     ```
+- [compile](https://cap.cloud.sap/docs/guides/databases/cdl-to-ddl#using-cds-compile-):
+    ```bash
+    cds compile '*'
+    ```
+- [add data](https://cap.cloud.sap/docs/guides/databases/initial-data#using-cds-add-data):
+    ```bash
+    cds add data
+    ```
+- [querying data](https://cap.cloud.sap/docs/get-started/bookshop#querying-data):
+    ```bash
+    cds repl ./
+    await SELECT `ROWS` .from `TABLE_NAME`
+    ```
 
 ### Notes:
  
