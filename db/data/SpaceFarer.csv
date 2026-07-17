@@ -1,4 +1,4 @@
-ID,firstName,lastName,email,starudstCollection,wormholeNavigationSkill,originPlanet,spacesuitColor,position_ID
+ID,firstName,lastName,email,stardustCollection,wormholeNavigationSkill,originPlanet,spacesuitColor,position_ID
 10000000-0000-4000-8000-000000000001,Orsolya,Ivék,orsolya.ivek@starcheckout.space,88.40,94,Kepler-442b,Nebula Blue,f2f9fbb9-8d12-4de0-8ab5-a0f6be3e1001
 10000000-0000-4000-8000-000000000002,Levente,Gombos,levente.gombos@starcheckout.space,72.15,89,Europa Prime,Stellar Silver,f2f9fbb9-8d12-4de0-8ab5-a0f6be3e1002
 10000000-0000-4000-8000-000000000003,PeterManuel,Catano,petermanuel.catano@starcheckout.space,65.30,83,Titan Outpost,Cosmic Red,f2f9fbb9-8d12-4de0-8ab5-a0f6be3e1003
