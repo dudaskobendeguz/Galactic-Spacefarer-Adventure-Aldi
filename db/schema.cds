@@ -15,7 +15,7 @@ define entity SpaceFarer : cuid, managed {
     email                   : String(255)    @mandatory  @assert.format : 'email'; // email format validation
 
     // Cosmic fields (Task 1 requirements)
-    starudstCollection      : Decimal(10, 2) @assert.range: [(0), 100] default 0.0; // Stardust collection in decimal format with a range constraint
+    stardustCollection      : Decimal(10, 2) @assert.range: [(0), 100] default 0.0; // Stardust collection in decimal format with a range constraint
     wormholeNavigationSkill : UInt8          @assert.range: [(0), 100] default 1; // skill level 1–100 https://cap.cloud.sap/docs/guides/services/constraints#assertrange
     originPlanet            : OriginPlanet;
     spacesuitColor          : SpacesuitColor; // e.g. "Nebula Blue"
