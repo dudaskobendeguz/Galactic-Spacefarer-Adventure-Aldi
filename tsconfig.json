@@ -9,10 +9,12 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "allowJs": true,
+    "types": [
+      "node",
+      "jest",
+      "@cap-js/cds-types"
+    ],
     "paths": {
-      "@sap/cds": [
-        "./node_modules/@cap-js/cds-types"
-      ],
       "#cds-models/*": [
         "./@cds-models/*"
       ]
