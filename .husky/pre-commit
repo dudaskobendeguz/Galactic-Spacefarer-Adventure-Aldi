@@ -3,3 +3,9 @@ echo "Running CDS compile check..."
 npm run compile:db 2>&1
 
 echo "CDS compile passed."
+
+echo "Running CDS test check..."
+
+npm run test 2>&1
+
+echo "CDS test passed."
