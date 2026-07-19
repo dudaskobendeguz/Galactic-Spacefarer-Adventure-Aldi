@@ -22,6 +22,18 @@
     "compile:db": "cds compile './db' --to sql",
     "prepare": "husky"
   },
+  "cds": {
+    "[development]": {
+      "requires": {
+        "db": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": ":memory:"
+          }
+        }
+      }
+    }
+  },
   "private": true,
   "imports": {
     "#cds-models/*": "./@cds-models/*/index.js"

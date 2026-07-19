@@ -18,7 +18,7 @@
     ```
 - [run in dev mode](https://cap.cloud.sap/docs/node.js/typescript#cds-watch) (auto reload):
     ```bash
-    npm run watch
+    npm run dev # runs cds watch locally; development profile config is applied by default ( --profile developement)
     ```
 - [compile](https://cap.cloud.sap/docs/guides/databases/cdl-to-ddl#using-cds-compile-):
     ```bash
@@ -37,4 +37,7 @@
 ### Notes:
  
  - [] [generating-model-types-automatically](https://cap.cloud.sap/docs/node.js/typescript#generating-model-types-automatically)
+ - [inner-loop-development](https://cap.cloud.sap/docs/guides/integration/inner-loops#inner-loop-development) 
+    - [in-memory-local-config](https://community.sap.com/t5/technology-blog-posts-by-members/sap-cap-lessons-learned-run-a-cap-app-using-sqlite-on-sap-btp-cloud-foundry/ba-p/13972594):
+
  
