@@ -3,6 +3,7 @@ using {
     managed
 } from '@sap/cds/common';
 
+namespace galactic.spacefarer.adventure;
 // ─────────────────────────────────────────────
 //  Spacefarer – Core Entity
 // ───────────────────────────────────────────────
