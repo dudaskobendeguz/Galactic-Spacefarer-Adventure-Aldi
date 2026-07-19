@@ -23,7 +23,7 @@
     "dev": "cds watch",
     "repl": "cds repl ./",
     "compile:db": "cds compile './db' --to sql",
-    "test": "tsx --test",
+    "test": "CDS_ENV=test tsx --test",
     "prepare": "husky"
   },
   "cds": {
@@ -73,6 +73,42 @@
         },
         "auth": {
           "kind": "dummy"
+        }
+      }
+    },
+    "[test]": {
+      "requires": {
+        "db": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": ":memory:"
+          }
+        },
+        "auth": {
+          "kind": "mocked",
+          "users": {
+            "space-admin": {
+              "password": "admin123",
+              "roles": [
+                "authenticated-user",
+                "SpacefarerAdmin"
+              ],
+              "attr": {
+                "planet": "Orion Belt"
+              }
+            },
+            "space-viewer": {
+              "password": "viewer123",
+              "roles": [
+                "authenticated-user",
+                "SpacefarerViewer"
+              ],
+              "attr": {
+                "planet": "Io Relay"
+              }
+            },
+            "*": false
+          }
         }
       }
     }
