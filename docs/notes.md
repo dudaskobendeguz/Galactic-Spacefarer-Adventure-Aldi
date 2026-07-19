@@ -1,5 +1,6 @@
-### useful commands(reminders)
+## useful commands(reminders)
 
+### Task-1 (db)
 - [init project](https://cap.cloud.sap/docs/get-started/#cds-init):
     ```bash
     cds init
@@ -33,6 +34,12 @@
     cds repl ./
     await SELECT `ROWS` .from `TABLE_NAME`
     ```
+- [namespaces](https://cap.cloud.sap/docs/cds/cdl#namespaces)
+
+### Task-2 (serivce\auth)
+- [services](https://cap.cloud.sap/docs/cds/cdl#services)
+- [CDS-Query-Language-(CQL)](https://cap.cloud.sap/docs/cds/cql)
+- [auth-@restrict](https://cap.cloud.sap/docs/guides/security/authorization?impl-variant=node#restrict-annotation)
 
 ### Notes:
  
