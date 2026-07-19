@@ -17,6 +17,7 @@
   },
   "scripts": {
     "start": "cds-serve",
+    "dev:company": "npm run dev -- --profile development-company",
     "dev": "cds watch",
     "repl": "cds repl ./",
     "compile:db": "cds compile './db' --to sql",
@@ -30,6 +31,45 @@
           "credentials": {
             "url": ":memory:"
           }
+        },
+        "auth": {
+          "kind": "mocked",
+          "users": {
+            "space-admin": {
+              "password": "admin123",
+              "roles": [
+                "authenticated-user",
+                "SpacefarerAdmin"
+              ],
+              "attr": {
+                "planet": "Orion Belt"
+              }
+            },
+            "space-viewer": {
+              "password": "viewer123",
+              "roles": [
+                "authenticated-user",
+                "SpacefarerViewer"
+              ],
+              "attr": {
+                "planet": "Io Relay"
+              }
+            },
+            "*": false
+          }
+        }
+      }
+    },
+    "[development-company]": {
+      "requires": {
+        "db": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": ":memory:"
+          }
+        },
+        "auth": {
+          "kind": "dummy"
         }
       }
     }
