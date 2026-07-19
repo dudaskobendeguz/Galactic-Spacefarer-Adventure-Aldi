@@ -1,0 +1,238 @@
+@baseUrl = http://localhost:4004/spacefarer-service
+// Basic base64 for: space-viewer:viewer123
+@viewerAuth = Basic c3BhY2Utdmlld2VyOnZpZXdlcjEyMw==
+// Basic base64 for: space-admin:admin123
+@adminAuth = Basic c3BhY2UtYWRtaW46YWRtaW4xMjM=
+// Regenerate with: printf 'username:password' | base64
+@viewerOwnedId = 30000000-0000-4000-8000-00000000aa01
+@existingPositionId = 20000000-0000-4000-8000-000000000001
+@existingDepartmentOwnerId = 30000000-0000-4000-8000-000000000001
+
+### ==========================================================
+### AUTH SCENARIOS (service root)
+### ==========================================================
+
+### Unauthenticated: service root (expect 401)
+GET {{baseUrl}}
+
+### Viewer: service root (expect 200)
+GET {{baseUrl}}
+Authorization: {{viewerAuth}}
+
+### Admin: service root (expect 200)
+GET {{baseUrl}}
+Authorization: {{adminAuth}}
+
+### ==========================================================
+### SPACEFARER ENTITY - UNAUTHENTICATED (expect 401 for all)
+### ==========================================================
+
+### Unauthenticated: READ list
+GET {{baseUrl}}/SpaceFarer
+
+### Unauthenticated: CREATE
+POST {{baseUrl}}/SpaceFarer
+Content-Type: application/json
+
+{
+  "ID": "{{viewerOwnedId}}",
+  "firstName": "Local",
+  "lastName": "Tester",
+  "email": "local.tester.mars@example.com",
+  "stardustCollection": 42.5,
+  "wormholeNavigationSkill": 75,
+  "originPlanet": "Mars",
+  "spacesuitColor": "Nebula Blue",
+  "position_ID": "{{existingPositionId}}",
+  "department": {
+    "name": "Exploration"
+  }
+}
+
+### Unauthenticated: UPDATE
+PATCH {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}')
+Content-Type: application/json
+
+{
+  "spacesuitColor": "Stellar Silver"
+}
+
+### Unauthenticated: DELETE
+DELETE {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}')
+
+### ==========================================================
+### SPACEFARER ENTITY - VIEWER ROLE
+### Service requires authenticated-user and entity requires SpacefarerViewer
+### with where originPlanet = $user.attr.planet (Mars for viewer)
+### ==========================================================
+
+### Viewer: READ list
+GET {{baseUrl}}/SpaceFarer
+Authorization: {{viewerAuth}}
+
+### Viewer: CREATE own Mars record (expect 201)
+POST {{baseUrl}}/SpaceFarer
+Content-Type: application/json
+Authorization: {{viewerAuth}}
+
+{
+  "ID": "{{viewerOwnedId}}",
+  "firstName": "Local",
+  "lastName": "Tester",
+  "email": "local.tester.mars@example.com",
+  "stardustCollection": 42.5,
+  "wormholeNavigationSkill": 75,
+  "originPlanet": "Mars",
+  "spacesuitColor": "Nebula Blue",
+  "position_ID": "{{existingPositionId}}",
+  "department": {
+    "name": "Exploration"
+  }
+}
+
+### Viewer: READ created record (expect 200)
+GET {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}')
+Authorization: {{viewerAuth}}
+
+### Viewer: UPDATE created record (expect 200/204)
+PATCH {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}')
+Content-Type: application/json
+Authorization: {{viewerAuth}}
+
+{
+  "spacesuitColor": "Stellar Silver",
+  "stardustCollection": 55.5
+}
+
+### Viewer: DELETE created record (expect 200/204)
+DELETE {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}')
+Authorization: {{viewerAuth}}
+
+### ==========================================================
+### SPACEFARER ENTITY - ADMIN USER (no SpacefarerViewer role)
+### Expect forbidden/not authorized for entity operations
+### ==========================================================
+
+### Admin: READ list (expect forbidden)
+GET {{baseUrl}}/SpaceFarer
+Authorization: {{adminAuth}}
+
+### Admin: CREATE (expect forbidden)
+POST {{baseUrl}}/SpaceFarer
+Content-Type: application/json
+Authorization: {{adminAuth}}
+
+{
+  "firstName": "Admin",
+  "lastName": "Attempt",
+  "email": "admin.attempt@example.com",
+  "stardustCollection": 11.0,
+  "wormholeNavigationSkill": 44,
+  "originPlanet": "Earth",
+  "spacesuitColor": "Cosmic Red",
+  "position_ID": "{{existingPositionId}}",
+  "department": {
+    "name": "Blocked Dept"
+  }
+}
+
+### Admin: UPDATE (expect forbidden)
+PATCH {{baseUrl}}/SpaceFarer(ID='{{existingDepartmentOwnerId}}')
+Content-Type: application/json
+Authorization: {{adminAuth}}
+
+{
+  "spacesuitColor": "Galactic Green"
+}
+
+### Admin: DELETE (expect forbidden)
+DELETE {{baseUrl}}/SpaceFarer(ID='{{existingDepartmentOwnerId}}')
+Authorization: {{adminAuth}}
+
+### ==========================================================
+### DEPARTMENT ENTITY (@readonly) - auth scenarios
+### ==========================================================
+
+### Viewer: READ Department list (expect 200)
+GET {{baseUrl}}/Department
+Authorization: {{viewerAuth}}
+
+### Viewer: CREATE Department (expect forbidden/read-only)
+POST {{baseUrl}}/Department
+Content-Type: application/json
+Authorization: {{viewerAuth}}
+
+{
+  "spaceFarer_ID": "{{existingDepartmentOwnerId}}",
+  "name": "Should Fail"
+}
+
+### Viewer: UPDATE Department (expect forbidden/read-only)
+PATCH {{baseUrl}}/Department(spaceFarer_ID='{{existingDepartmentOwnerId}}')
+Content-Type: application/json
+Authorization: {{viewerAuth}}
+
+{
+  "name": "Still Should Fail"
+}
+
+### Viewer: DELETE Department (expect forbidden/read-only)
+DELETE {{baseUrl}}/Department(spaceFarer_ID='{{existingDepartmentOwnerId}}')
+Authorization: {{viewerAuth}}
+
+### Admin: READ Department list (expect 200)
+GET {{baseUrl}}/Department
+Authorization: {{adminAuth}}
+
+### Admin: CREATE Department (expect forbidden/read-only)
+POST {{baseUrl}}/Department
+Content-Type: application/json
+Authorization: {{adminAuth}}
+
+{
+  "spaceFarer_ID": "{{existingDepartmentOwnerId}}",
+  "name": "Admin Should Fail"
+}
+
+### ==========================================================
+### POSITION ENTITY (@readonly) - auth scenarios
+### ==========================================================
+
+### Viewer: READ Position list (expect 200)
+GET {{baseUrl}}/Position
+Authorization: {{viewerAuth}}
+
+### Viewer: CREATE Position (expect forbidden/read-only)
+POST {{baseUrl}}/Position
+Content-Type: application/json
+Authorization: {{viewerAuth}}
+
+{
+  "title": "Navigator"
+}
+
+### Viewer: UPDATE Position (expect forbidden/read-only)
+PATCH {{baseUrl}}/Position(ID='{{existingPositionId}}')
+Content-Type: application/json
+Authorization: {{viewerAuth}}
+
+{
+  "title": "Captain"
+}
+
+### Viewer: DELETE Position (expect forbidden/read-only)
+DELETE {{baseUrl}}/Position(ID='{{existingPositionId}}')
+Authorization: {{viewerAuth}}
+
+### Admin: READ Position list (expect 200)
+GET {{baseUrl}}/Position
+Authorization: {{adminAuth}}
+
+### Admin: CREATE Position (expect forbidden/read-only)
+POST {{baseUrl}}/Position
+Content-Type: application/json
+Authorization: {{adminAuth}}
+
+{
+  "title": "Commander"
+}
