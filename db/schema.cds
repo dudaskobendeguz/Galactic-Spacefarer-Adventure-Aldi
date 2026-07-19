@@ -13,7 +13,7 @@ define entity SpaceFarer : cuid, managed {
     // Personal information
     firstName               : String(50)     @mandatory  @assert.pattern: '^[A-Za-z]+$'; // Only letters allowed
     lastName                : String(50)     @mandatory  @assert.pattern: '^[A-Za-z]+$'; // Only letters allowed
-    email                   : String(255)    @mandatory  @assert.format : 'email'; // email format validation
+    email                   : String(255)    @mandatory  @assert.pattern: '^[^\s@]+@[^\s@]+\.[^\s@]+$'; // Basic email regex validation
 
     // Cosmic fields (Task 1 requirements)
     stardustCollection      : Decimal(10, 2) @assert.range: [(0), 100] default 0.0; // Stardust collection in decimal format with a range constraint
