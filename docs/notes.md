@@ -37,10 +37,15 @@
 - [namespaces](https://cap.cloud.sap/docs/cds/cdl#namespaces)
 
 ### Task-2 (serivce\auth)
+
+#### services:
 - [services](https://cap.cloud.sap/docs/cds/cdl#services)
 - [serving-crud](https://cap.cloud.sap/docs/guides/services/served-ootb#serving-crud)
 - [CDS-Query-Language-(CQL)](https://cap.cloud.sap/docs/cds/cql)
+
+#### auth:
 - [auth-@restrict](https://cap.cloud.sap/docs/guides/security/authorization?impl-variant=node#restrict-annotation)
+- [mock-users](https://cap.cloud.sap/docs/node.js/authentication#mock-users)
 
 ### Notes:
  
