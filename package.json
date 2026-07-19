@@ -6,10 +6,12 @@
     "@sap/cds": "^10"
   },
   "devDependencies": {
+    "@cap-js/cds-test": "^1.0.1",
     "@cap-js/cds-typer": ">=0.1",
     "@cap-js/cds-types": "^0.18.0",
     "@cap-js/sqlite": "^3",
     "@sap/cds-dk": "^10.0.4",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.0.0",
     "husky": "^9.1.7",
     "tsx": "^4",
@@ -17,9 +19,11 @@
   },
   "scripts": {
     "start": "cds-serve",
+    "dev:company": "npm run dev -- --profile development-company",
     "dev": "cds watch",
     "repl": "cds repl ./",
     "compile:db": "cds compile './db' --to sql",
+    "test": "CDS_ENV=test tsx --test",
     "prepare": "husky"
   },
   "cds": {
@@ -29,6 +33,81 @@
           "kind": "sqlite",
           "credentials": {
             "url": ":memory:"
+          }
+        },
+        "auth": {
+          "kind": "mocked",
+          "users": {
+            "space-admin": {
+              "password": "admin123",
+              "roles": [
+                "authenticated-user",
+                "SpacefarerAdmin"
+              ],
+              "attr": {
+                "planet": "Orion Belt"
+              }
+            },
+            "space-viewer": {
+              "password": "viewer123",
+              "roles": [
+                "authenticated-user",
+                "SpacefarerViewer"
+              ],
+              "attr": {
+                "planet": "Io Relay"
+              }
+            },
+            "*": false
+          }
+        }
+      }
+    },
+    "[development-company]": {
+      "requires": {
+        "db": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": ":memory:"
+          }
+        },
+        "auth": {
+          "kind": "dummy"
+        }
+      }
+    },
+    "[test]": {
+      "requires": {
+        "db": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": ":memory:"
+          }
+        },
+        "auth": {
+          "kind": "mocked",
+          "users": {
+            "space-admin": {
+              "password": "admin123",
+              "roles": [
+                "authenticated-user",
+                "SpacefarerAdmin"
+              ],
+              "attr": {
+                "planet": "Orion Belt"
+              }
+            },
+            "space-viewer": {
+              "password": "viewer123",
+              "roles": [
+                "authenticated-user",
+                "SpacefarerViewer"
+              ],
+              "attr": {
+                "planet": "Io Relay"
+              }
+            },
+            "*": false
           }
         }
       }

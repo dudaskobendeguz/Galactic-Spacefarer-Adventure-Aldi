@@ -1,0 +1,95 @@
+@baseUrl = http://localhost:4004/spacefarer-service
+// Basic base64 for: space-viewer:viewer123
+@viewerAuth = Basic c3BhY2Utdmlld2VyOnZpZXdlcjEyMw==
+// Basic base64 for: space-admin:admin123
+@adminAuth = Basic c3BhY2UtYWRtaW46YWRtaW4xMjM=
+// Regenerate with: printf 'username:password' | base64
+@existingSpaceFarerId = 10000000-0000-4000-8000-000000000001
+@existingPositionId = 20000000-0000-4000-8000-000000000001
+
+### ==========================================================
+### SERVICE ROOT AUTH
+### ==========================================================
+
+### 1) Service root without auth -> expect 401 Unauthorized
+GET {{baseUrl}}
+
+### 2) Service root with viewer auth -> expect 200 OK
+GET {{baseUrl}}
+Authorization: {{viewerAuth}}
+
+### 3) Service root with admin auth -> expect 200 OK
+GET {{baseUrl}}
+Authorization: {{adminAuth}}
+
+### ==========================================================
+### SPACEFARER ENDPOINT AUTH
+### Service rules:
+### - requires authenticated-user at service level
+### - requires SpacefarerViewer role + originPlanet filter on SpaceFarer
+### ==========================================================
+
+### 4) SpaceFarer list without auth -> expect 401 Unauthorized
+GET {{baseUrl}}/SpaceFarer
+
+### 5) SpaceFarer list with viewer -> expect 200 OK (filtered by viewer planet)
+GET {{baseUrl}}/SpaceFarer
+Authorization: {{viewerAuth}}
+
+### 6) SpaceFarer list with admin -> expect 200 OK (admin has unrestricted READ)
+GET {{baseUrl}}/SpaceFarer
+Authorization: {{adminAuth}}
+
+### 7) SpaceFarer by ID without auth -> expect 401 Unauthorized
+GET {{baseUrl}}/SpaceFarer(ID='{{existingSpaceFarerId}}')
+
+### 8) SpaceFarer by ID with viewer -> expect 200 OR 404 (planet filter may hide row)
+GET {{baseUrl}}/SpaceFarer(ID='{{existingSpaceFarerId}}')
+Authorization: {{viewerAuth}}
+
+### 9) SpaceFarer by ID with admin -> expect 200 OK
+GET {{baseUrl}}/SpaceFarer(ID='{{existingSpaceFarerId}}')
+Authorization: {{adminAuth}}
+
+### ==========================================================
+### DEPARTMENT ENDPOINT AUTH
+### Entity is @readonly, so authenticated users can READ only
+### ==========================================================
+
+### 10) Department list without auth -> expect 401 Unauthorized
+GET {{baseUrl}}/Department
+
+### 11) Department list with viewer -> expect 200 OK
+GET {{baseUrl}}/Department
+Authorization: {{viewerAuth}}
+
+### 12) Department list with admin -> expect 200 OK
+GET {{baseUrl}}/Department
+Authorization: {{adminAuth}}
+
+### ==========================================================
+### POSITION ENDPOINT AUTH
+### Entity is @readonly, so authenticated users can READ only
+### ==========================================================
+
+### 13) Position list without auth -> expect 401 Unauthorized
+GET {{baseUrl}}/Position
+
+### 14) Position list with viewer -> expect 200 OK
+GET {{baseUrl}}/Position
+Authorization: {{viewerAuth}}
+
+### 15) Position list with admin -> expect 200 OK
+GET {{baseUrl}}/Position
+Authorization: {{adminAuth}}
+
+### 16) Position by ID without auth -> expect 401 Unauthorized
+GET {{baseUrl}}/Position(ID='{{existingPositionId}}')
+
+### 17) Position by ID with viewer -> expect 200 OK
+GET {{baseUrl}}/Position(ID='{{existingPositionId}}')
+Authorization: {{viewerAuth}}
+
+### 18) Position by ID with admin -> expect 200 OK
+GET {{baseUrl}}/Position(ID='{{existingPositionId}}')
+Authorization: {{adminAuth}}
