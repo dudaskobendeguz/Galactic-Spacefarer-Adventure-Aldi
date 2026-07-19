@@ -8,9 +8,18 @@ using {galactic.spacefarer.adventure as my} from '../db/schema.cds';
  *  on the SpaceFarer, Department, and Position entities, allowing clients to manage spacefarers and their associated departments and positions.
  * - The service is accessible via the path '/spacefarer-service'.
  */
-@path: '/spacefarer-service'
-service SpaceFarerService {
+@requires: 'authenticated-user'
+service SpaceFarerService @(path: '/spacefarer-service') {
+    @restrict: [{
+        grant: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+        to   : ['SpacefarerViewer'],
+        where: [(originPlanet = $user.attr.planet)]
+    }]
     entity SpaceFarer as projection on my.SpaceFarer;
+
+    @readonly
     entity Department as projection on my.Department;
-    entity Position as projection on my.Position;
+
+    @readonly
+    entity Position   as projection on my.Position;
 }
