@@ -10,11 +10,17 @@ using {galactic.spacefarer.adventure as my} from '../db/schema.cds';
  */
 @requires: 'authenticated-user'
 service SpaceFarerService @(path: '/spacefarer-service') {
-    @restrict: [{
-        grant: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
-        to   : ['SpacefarerViewer'],
-        where: [(originPlanet = $user.attr.planet)]
-    }]
+    @restrict: [
+        {
+            grant: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+            to   : 'SpacefarerViewer',
+            where: [(originPlanet = $user.attr.planet)]
+        },
+        {
+            grant: ['READ'],
+            to   : 'SpacefarerAdmin'
+        }
+    ]
     entity SpaceFarer as projection on my.SpaceFarer;
 
     @readonly
