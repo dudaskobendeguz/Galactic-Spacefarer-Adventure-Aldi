@@ -51,6 +51,7 @@
 
 - [init()](https://cap.cloud.sap/docs/node.js/core-services#srv-init)
 - [srv._on,_before,_after()](https://cap.cloud.sap/docs/node.js/core-services#srv-on-before-after)
+- [events](https://cap.cloud.sap/docs/node.js/events)
 ### Notes:
  
  - [] [generating-model-types-automatically](https://cap.cloud.sap/docs/node.js/typescript#generating-model-types-automatically)
