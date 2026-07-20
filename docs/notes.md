@@ -47,10 +47,16 @@
 - [auth-@restrict](https://cap.cloud.sap/docs/guides/security/authorization?impl-variant=node#restrict-annotation)
 - [mock-users](https://cap.cloud.sap/docs/node.js/authentication#mock-users)
 
+### Task-3 (service event handlers)
+
+- [init()](https://cap.cloud.sap/docs/node.js/core-services#srv-init)
+- [srv._on,_before,_after()](https://cap.cloud.sap/docs/node.js/core-services#srv-on-before-after)
 ### Notes:
  
  - [] [generating-model-types-automatically](https://cap.cloud.sap/docs/node.js/typescript#generating-model-types-automatically)
  - [inner-loop-development](https://cap.cloud.sap/docs/guides/integration/inner-loops#inner-loop-development) 
     - [in-memory-local-config](https://community.sap.com/t5/technology-blog-posts-by-members/sap-cap-lessons-learned-run-a-cap-app-using-sqlite-on-sap-btp-cloud-foundry/ba-p/13972594):
+- [logger](https://cap.cloud.sap/docs/node.js/cds-log)
+    - [debug-log](https://cap.cloud.sap/docs/node.js/cds-log#debug-env-variable)
 
  
