@@ -17,7 +17,7 @@ define entity SpaceFarer : cuid, managed {
 
     // Cosmic fields (Task 1 requirements)
     stardustCollection      : Decimal(10, 2) @assert.range: [(0), 100] default 0.0; // Stardust collection in decimal format with a range constraint
-    wormholeNavigationSkill : UInt8          @assert.range: [(0), 100] default 1; // skill level 1–100 https://cap.cloud.sap/docs/guides/services/constraints#assertrange
+    wormholeNavigationSkill : UInt8          @mandatory @assert.range: [(0), 100] default 1; // skill level 1–100 https://cap.cloud.sap/docs/guides/services/constraints#assertrange
     originPlanet            : OriginPlanet;
     spacesuitColor          : SpacesuitColor; // e.g. "Nebula Blue"
 
@@ -37,10 +37,12 @@ define entity Department : managed {
 
 // ─────────────────────────────────────────────
 //  Spacefarer – Position Entity
-//
+// 
 define entity Position : cuid, managed {
-    title      : PositionTitle @mandatory;
-    spaceFarers: Association to many SpaceFarer on spaceFarers.position = $self; // Each Position can be held by multiple SpaceFarers
+    title               : PositionTitle @mandatory;
+    skillBoundary_min   : UInt8 @assert.range: [(0), 100] @mandatory; // Minimum wormholeNavigationSkill level required
+    skillBoundary_max   : UInt8 @assert.range: [(0), 100] @mandatory; // Maximum wormholeNavigationSkill level allowed
+    spaceFarers         : Association to many SpaceFarer on spaceFarers.position = $self; // Each Position can be held by multiple SpaceFarers
 }
 
 // ─────────────────────────────────────────────

@@ -40,7 +40,7 @@ Content-Type: application/json
   "lastName": "Tester",
   "email": "local.tester.mars@example.com",
   "stardustCollection": 42.5,
-  "wormholeNavigationSkill": 75,
+  "wormholeNavigationSkill": 77,
   "originPlanet": "Mars",
   "spacesuitColor": "Nebula Blue",
   "position_ID": "{{existingPositionId}}",
