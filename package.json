@@ -19,8 +19,9 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "dev:company": "npm run dev -- --profile development-company",
+    "dev:company": "DEBUG=spacefarer-service cds watch --profile development-company",
     "dev": "cds watch",
+    "build": "cds build",
     "repl": "cds repl ./",
     "compile:db": "cds compile './db' --to sql",
     "test": "CDS_ENV=test tsx --test",
