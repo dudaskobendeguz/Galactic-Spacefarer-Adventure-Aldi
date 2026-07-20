@@ -21,7 +21,12 @@ service SpaceFarerService @(path: '/spacefarer-service') {
             to   : 'SpacefarerAdmin'
         }
     ]
-    entity SpaceFarer as projection on my.SpaceFarer;
+    entity SpaceFarer as projection on my.SpaceFarer excluding {
+        createdAt,
+        createdBy,
+        modifiedAt,
+        modifiedBy
+    };
 
     @readonly
     entity Department as projection on my.Department;
