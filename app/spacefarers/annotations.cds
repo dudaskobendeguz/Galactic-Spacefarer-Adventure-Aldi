@@ -52,6 +52,12 @@ annotate service.SpaceFarer with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
+            Value : position.title,
+            Label : 'Title',
+            @UI.Importance : #High,
+        },
+        {
+            $Type : 'UI.DataField',
             Label : 'First Name',
             Value : firstName,
         },
@@ -69,12 +75,6 @@ annotate service.SpaceFarer with @(
             $Type : 'UI.DataField',
             Value : originPlanet,
             Label : 'Planet',
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : position.title,
-            Label : 'Title',
-            @UI.Importance : #High,
         },
         {
             $Type : 'UI.DataFieldForAnnotation',
@@ -96,6 +96,26 @@ annotate service.SpaceFarer with @(
             $Type : 'UI.PresentationVariantType',
             Visualizations : [
                 '@UI.LineItem',
+            ],
+            SortOrder : [
+                {
+                    $Type : 'Common.SortOrderType',
+                    Property : wormholeNavigationSkill,
+                    Descending : true,
+                },
+                {
+                    $Type : 'Common.SortOrderType',
+                    Property : lastName,
+                    Descending : false,
+                },
+                {
+                    $Type : 'Common.SortOrderType',
+                    Property : originPlanet,
+                    Descending : false,
+                },
+            ],
+            GroupBy : [
+                spacesuitColor,
             ],
         },
         SelectionVariant : {
@@ -242,6 +262,7 @@ annotate service.SpaceFarer with {
 annotate service.SpaceFarer with {
     spacesuitColor @(
         Common.Label : 'spacesuitColor',
+        Common.Text : lastName,
         )
 };
 
@@ -256,4 +277,8 @@ annotate service.SpaceFarer with {
 annotate service.SpaceFarer with {
     wormholeNavigationSkill @Measures.Unit : '/100'
 };
+// https://github.com/capire/xtravels/blob/b147a1daad27d11352e0d39b525b25ed3241c016/app/travels/capabilities.cds#L3
+// https://cap.cloud.sap/docs/guides/uis/fiori#draft-enabled-entities
+annotate service.SpaceFarer with @odata.draft.enabled: true;
+
 
