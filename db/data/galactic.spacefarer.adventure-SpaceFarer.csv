@@ -1,19 +1,19 @@
 ID,firstName,lastName,email,stardustCollection,wormholeNavigationSkill,originPlanet,spacesuitColor,position_ID
-10000000-0000-4000-8000-000000000001,Orsolya,Ivék,orsolya.ivek@starcheckout.space,88.40,96,Kepler-442b,Quantum Purple,20000000-0000-4000-8000-000000000001
-10000000-0000-4000-8000-000000000002,Levente,Gombos,levente.gombos@starcheckout.space,72.15,89,Europa Prime,Stellar Silver,20000000-0000-4000-8000-000000000002
-10000000-0000-4000-8000-000000000003,PeterManuel,Catano,petermanuel.catano@starcheckout.space,65.30,83,Titan Outpost,Stellar Silver,20000000-0000-4000-8000-000000000003
-10000000-0000-4000-8000-000000000004,Zsuzsanna,Gyori,zsuzsanna.gyori@starcheckout.space,41.90,70,Mars Colony,Galactic Green,20000000-0000-4000-8000-000000000004
-10000000-0000-4000-8000-000000000005,Gergő,Perlaki,gergo.perlaki@starcheckout.space,58.75,57,Andromeda Gate,Galactic Green,20000000-0000-4000-8000-000000000005
-10000000-0000-4000-8000-000000000006,Bálint,Wittmer,balint.wittmer@starcheckout.space,93.10,45,Proxima Station,Quantum Purple,20000000-0000-4000-8000-000000000006
-10000000-0000-4000-8000-000000000007,Mátyás,Mihalyi,matyas.mihalyi@starcheckout.space,37.25,35,Luna Dock,Cosmic Red,20000000-0000-4000-8000-000000000007
-10000000-0000-4000-8000-000000000008,Balázs,Kátai,balazs.katai@starcheckout.space,26.80,69,Ceres Hub,Cosmic Red,20000000-0000-4000-8000-000000000004
-10000000-0000-4000-8000-000000000009,János,Marjai,janos.marjai@starcheckout.space,49.55,58,Helios Ring,Galactic Green,20000000-0000-4000-8000-000000000005
-10000000-0000-4000-8000-000000000010,Zoltán,Baranyay,zoltan.baranyay@starcheckout.space,81.35,46,Vega Nine,Quantum Purple,20000000-0000-4000-8000-000000000006
+10000000-0000-4000-8000-000000000001,Orsolya,Ivék,orsolya.ivek@starcheckout.space,88.40,96,Io Relay,Quantum Purple,20000000-0000-4000-8000-000000000001
+10000000-0000-4000-8000-000000000002,Levente,Gombos,levente.gombos@starcheckout.space,72.15,89,Io Relay,Stellar Silver,20000000-0000-4000-8000-000000000002
+10000000-0000-4000-8000-000000000003,PeterManuel,Catano,petermanuel.catano@starcheckout.space,65.30,83,Io Relay,Stellar Silver,20000000-0000-4000-8000-000000000003
+10000000-0000-4000-8000-000000000004,Zsuzsanna,Gyori,zsuzsanna.gyori@starcheckout.space,41.90,70,Io Relay,Galactic Green,20000000-0000-4000-8000-000000000004
+10000000-0000-4000-8000-000000000005,Gergő,Perlaki,gergo.perlaki@starcheckout.space,58.75,57,Io Relay,Galactic Green,20000000-0000-4000-8000-000000000005
+10000000-0000-4000-8000-000000000006,Bálint,Wittmer,balint.wittmer@starcheckout.space,93.10,45,Io Relay,Quantum Purple,20000000-0000-4000-8000-000000000006
+10000000-0000-4000-8000-000000000007,Mátyás,Mihalyi,matyas.mihalyi@starcheckout.space,37.25,35,Io Relay,Cosmic Red,20000000-0000-4000-8000-000000000007
+10000000-0000-4000-8000-000000000008,Balázs,Kátai,balazs.katai@starcheckout.space,26.80,69,Io Relay,Cosmic Red,20000000-0000-4000-8000-000000000004
+10000000-0000-4000-8000-000000000009,János,Marjai,janos.marjai@starcheckout.space,49.55,58,Io Relay,Galactic Green,20000000-0000-4000-8000-000000000005
+10000000-0000-4000-8000-000000000010,Zoltán,Baranyay,zoltan.baranyay@starcheckout.space,81.35,46,Io Relay,Quantum Purple,20000000-0000-4000-8000-000000000006
 10000000-0000-4000-8000-000000000011,Bence,Scheibli,bence.scheibli@starcheckout.space,54.60,70,Io Relay,Galactic Green,20000000-0000-4000-8000-000000000004
-10000000-0000-4000-8000-000000000012,Péter,Markó,peter.marko@starcheckout.space,69.25,87,Orion Belt,Stellar Silver,20000000-0000-4000-8000-000000000002
-10000000-0000-4000-8000-000000000013,Ákos,Bajusz,akos.bajusz@starcheckout.space,77.80,97,Atlas Station,Stellar Silver,20000000-0000-4000-8000-000000000001
+10000000-0000-4000-8000-000000000012,Péter,Markó,peter.marko@starcheckout.space,69.25,87,Io Relay,Stellar Silver,20000000-0000-4000-8000-000000000002
+10000000-0000-4000-8000-000000000013,Ákos,Bajusz,akos.bajusz@starcheckout.space,77.80,97,Io Relay,Stellar Silver,20000000-0000-4000-8000-000000000001
 10000000-0000-4000-8000-000000000014,Aether,Beacon-14,aether.beacon-14@starcheckout.space,98.82,53,Proxima Station,Quantum Purple,20000000-0000-4000-8000-000000000005
-10000000-0000-4000-8000-000000000015,Stellar,Drift-15,stellar.drift-15@starcheckout.space,4.95,64,Io Relay,Nebula Blue,20000000-0000-4000-8000-000000000005
+10000000-0000-4000-8000-000000000015,Stellar,Drift-15,stellar.drift-15@starcheckout.space,4.95,64,Kepler-23,Nebula Blue,20000000-0000-4000-8000-000000000005
 10000000-0000-4000-8000-000000000016,Nova,Seeker-16,nova.seeker-16@starcheckout.space,11.08,75,Titan Outpost,Nebula Blue,20000000-0000-4000-8000-000000000003
 10000000-0000-4000-8000-000000000017,Astro,Rider-17,astro.rider-17@starcheckout.space,18.21,86,Ceres Hub,Nebula Blue,20000000-0000-4000-8000-000000000002
 10000000-0000-4000-8000-000000000018,Cosmo,Spark-18,cosmo.spark-18@starcheckout.space,25.34,97,Atlas Station,Cosmic Red,20000000-0000-4000-8000-000000000001
@@ -26,7 +26,7 @@ ID,firstName,lastName,email,stardustCollection,wormholeNavigationSkill,originPla
 10000000-0000-4000-8000-000000000025,Zenith,Drift-25,zenith.drift-25@starcheckout.space,74.25,73,Helios Ring,Stellar Silver,20000000-0000-4000-8000-000000000004
 10000000-0000-4000-8000-000000000026,Pulsar,Seeker-26,pulsar.seeker-26@starcheckout.space,81.38,84,Kepler-442b,Quantum Purple,20000000-0000-4000-8000-000000000003
 10000000-0000-4000-8000-000000000027,Comet,Rider-27,comet.rider-27@starcheckout.space,88.51,95,Proxima Station,Quantum Purple,20000000-0000-4000-8000-000000000001
-10000000-0000-4000-8000-000000000028,Meteor,Spark-28,meteor.spark-28@starcheckout.space,95.64,5,Io Relay,Quantum Purple,20000000-0000-4000-8000-000000000008
+10000000-0000-4000-8000-000000000028,Meteor,Spark-28,meteor.spark-28@starcheckout.space,95.64,5,Kepler-23,Quantum Purple,20000000-0000-4000-8000-000000000008
 10000000-0000-4000-8000-000000000029,Photon,Beacon-29,photon.beacon-29@starcheckout.space,1.77,16,Titan Outpost,Nebula Blue,20000000-0000-4000-8000-000000000008
 10000000-0000-4000-8000-000000000030,Aether,Drift-30,aether.drift-30@starcheckout.space,8.90,27,Ceres Hub,Nebula Blue,20000000-0000-4000-8000-000000000008
 10000000-0000-4000-8000-000000000031,Stellar,Seeker-31,stellar.seeker-31@starcheckout.space,15.03,38,Atlas Station,Nebula Blue,20000000-0000-4000-8000-000000000007
@@ -39,7 +39,7 @@ ID,firstName,lastName,email,stardustCollection,wormholeNavigationSkill,originPla
 10000000-0000-4000-8000-000000000038,Solar,Spark-38,solar.spark-38@starcheckout.space,64.94,14,Helios Ring,Stellar Silver,20000000-0000-4000-8000-000000000008
 10000000-0000-4000-8000-000000000039,Nebula,Beacon-39,nebula.beacon-39@starcheckout.space,71.07,25,Kepler-442b,Stellar Silver,20000000-0000-4000-8000-000000000008
 10000000-0000-4000-8000-000000000040,Quasar,Drift-40,quasar.drift-40@starcheckout.space,78.20,36,Proxima Station,Stellar Silver,20000000-0000-4000-8000-000000000007
-10000000-0000-4000-8000-000000000041,Zenith,Seeker-41,zenith.seeker-41@starcheckout.space,85.33,47,Io Relay,Quantum Purple,20000000-0000-4000-8000-000000000006
+10000000-0000-4000-8000-000000000041,Zenith,Seeker-41,zenith.seeker-41@starcheckout.space,85.33,47,Kepler-23,Quantum Purple,20000000-0000-4000-8000-000000000006
 10000000-0000-4000-8000-000000000042,Pulsar,Rider-42,pulsar.rider-42@starcheckout.space,92.46,58,Titan Outpost,Quantum Purple,20000000-0000-4000-8000-000000000005
 10000000-0000-4000-8000-000000000043,Comet,Spark-43,comet.spark-43@starcheckout.space,99.59,69,Ceres Hub,Quantum Purple,20000000-0000-4000-8000-000000000004
 10000000-0000-4000-8000-000000000044,Meteor,Beacon-44,meteor.beacon-44@starcheckout.space,5.72,80,Atlas Station,Nebula Blue,20000000-0000-4000-8000-000000000003
@@ -52,7 +52,7 @@ ID,firstName,lastName,email,stardustCollection,wormholeNavigationSkill,originPla
 10000000-0000-4000-8000-000000000051,Vega,Seeker-51,vega.seeker-51@starcheckout.space,54.63,56,Helios Ring,Galactic Green,20000000-0000-4000-8000-000000000005
 10000000-0000-4000-8000-000000000052,Orion,Rider-52,orion.rider-52@starcheckout.space,61.76,67,Kepler-442b,Stellar Silver,20000000-0000-4000-8000-000000000004
 10000000-0000-4000-8000-000000000053,Luna,Spark-53,luna.spark-53@starcheckout.space,68.89,78,Proxima Station,Stellar Silver,20000000-0000-4000-8000-000000000003
-10000000-0000-4000-8000-000000000054,Solar,Beacon-54,solar.beacon-54@starcheckout.space,75.02,89,Io Relay,Stellar Silver,20000000-0000-4000-8000-000000000002
+10000000-0000-4000-8000-000000000054,Solar,Beacon-54,solar.beacon-54@starcheckout.space,75.02,89,Kepler-23,Stellar Silver,20000000-0000-4000-8000-000000000002
 10000000-0000-4000-8000-000000000055,Nebula,Drift-55,nebula.drift-55@starcheckout.space,82.15,100,Titan Outpost,Quantum Purple,20000000-0000-4000-8000-000000000001
 10000000-0000-4000-8000-000000000056,Quasar,Seeker-56,quasar.seeker-56@starcheckout.space,89.28,10,Ceres Hub,Quantum Purple,20000000-0000-4000-8000-000000000008
 10000000-0000-4000-8000-000000000057,Zenith,Rider-57,zenith.rider-57@starcheckout.space,96.41,21,Atlas Station,Quantum Purple,20000000-0000-4000-8000-000000000008
@@ -65,7 +65,7 @@ ID,firstName,lastName,email,stardustCollection,wormholeNavigationSkill,originPla
 10000000-0000-4000-8000-000000000064,Nova,Beacon-64,nova.beacon-64@starcheckout.space,44.32,98,Helios Ring,Galactic Green,20000000-0000-4000-8000-000000000001
 10000000-0000-4000-8000-000000000065,Astro,Drift-65,astro.drift-65@starcheckout.space,51.45,8,Kepler-442b,Galactic Green,20000000-0000-4000-8000-000000000008
 10000000-0000-4000-8000-000000000066,Cosmo,Seeker-66,cosmo.seeker-66@starcheckout.space,58.58,19,Proxima Station,Galactic Green,20000000-0000-4000-8000-000000000008
-10000000-0000-4000-8000-000000000067,Vega,Rider-67,vega.rider-67@starcheckout.space,65.71,30,Io Relay,Stellar Silver,20000000-0000-4000-8000-000000000007
+10000000-0000-4000-8000-000000000067,Vega,Rider-67,vega.rider-67@starcheckout.space,65.71,30,Kepler-23,Stellar Silver,20000000-0000-4000-8000-000000000007
 10000000-0000-4000-8000-000000000068,Orion,Spark-68,orion.spark-68@starcheckout.space,72.84,41,Titan Outpost,Stellar Silver,20000000-0000-4000-8000-000000000006
 10000000-0000-4000-8000-000000000069,Luna,Beacon-69,luna.beacon-69@starcheckout.space,79.97,52,Ceres Hub,Stellar Silver,20000000-0000-4000-8000-000000000005
 10000000-0000-4000-8000-000000000070,Solar,Drift-70,solar.drift-70@starcheckout.space,86.10,63,Atlas Station,Quantum Purple,20000000-0000-4000-8000-000000000005
@@ -78,7 +78,7 @@ ID,firstName,lastName,email,stardustCollection,wormholeNavigationSkill,originPla
 10000000-0000-4000-8000-000000000077,Photon,Rider-77,photon.rider-77@starcheckout.space,34.01,39,Helios Ring,Cosmic Red,20000000-0000-4000-8000-000000000007
 10000000-0000-4000-8000-000000000078,Aether,Spark-78,aether.spark-78@starcheckout.space,41.14,50,Kepler-442b,Galactic Green,20000000-0000-4000-8000-000000000005
 10000000-0000-4000-8000-000000000079,Stellar,Beacon-79,stellar.beacon-79@starcheckout.space,48.27,61,Proxima Station,Galactic Green,20000000-0000-4000-8000-000000000005
-10000000-0000-4000-8000-000000000080,Nova,Drift-80,nova.drift-80@starcheckout.space,55.40,72,Io Relay,Galactic Green,20000000-0000-4000-8000-000000000004
+10000000-0000-4000-8000-000000000080,Nova,Drift-80,nova.drift-80@starcheckout.space,55.40,72,Kepler-23,Galactic Green,20000000-0000-4000-8000-000000000004
 10000000-0000-4000-8000-000000000081,Astro,Seeker-81,astro.seeker-81@starcheckout.space,62.53,83,Titan Outpost,Stellar Silver,20000000-0000-4000-8000-000000000003
 10000000-0000-4000-8000-000000000082,Cosmo,Rider-82,cosmo.rider-82@starcheckout.space,69.66,94,Ceres Hub,Stellar Silver,20000000-0000-4000-8000-000000000002
 10000000-0000-4000-8000-000000000083,Vega,Spark-83,vega.spark-83@starcheckout.space,76.79,4,Atlas Station,Stellar Silver,20000000-0000-4000-8000-000000000008
@@ -91,7 +91,7 @@ ID,firstName,lastName,email,stardustCollection,wormholeNavigationSkill,originPla
 10000000-0000-4000-8000-000000000090,Pulsar,Drift-90,pulsar.drift-90@starcheckout.space,24.70,81,Helios Ring,Cosmic Red,20000000-0000-4000-8000-000000000003
 10000000-0000-4000-8000-000000000091,Comet,Seeker-91,comet.seeker-91@starcheckout.space,31.83,92,Kepler-442b,Cosmic Red,20000000-0000-4000-8000-000000000002
 10000000-0000-4000-8000-000000000092,Meteor,Rider-92,meteor.rider-92@starcheckout.space,38.96,2,Proxima Station,Cosmic Red,20000000-0000-4000-8000-000000000008
-10000000-0000-4000-8000-000000000093,Photon,Spark-93,photon.spark-93@starcheckout.space,45.09,13,Io Relay,Galactic Green,20000000-0000-4000-8000-000000000008
+10000000-0000-4000-8000-000000000093,Photon,Spark-93,photon.spark-93@starcheckout.space,45.09,13,Kepler-23,Galactic Green,20000000-0000-4000-8000-000000000008
 10000000-0000-4000-8000-000000000094,Aether,Beacon-94,aether.beacon-94@starcheckout.space,52.22,24,Titan Outpost,Galactic Green,20000000-0000-4000-8000-000000000008
 10000000-0000-4000-8000-000000000095,Stellar,Drift-95,stellar.drift-95@starcheckout.space,59.35,35,Ceres Hub,Galactic Green,20000000-0000-4000-8000-000000000007
 10000000-0000-4000-8000-000000000096,Nova,Seeker-96,nova.seeker-96@starcheckout.space,66.48,46,Atlas Station,Stellar Silver,20000000-0000-4000-8000-000000000006
@@ -104,7 +104,7 @@ ID,firstName,lastName,email,stardustCollection,wormholeNavigationSkill,originPla
 10000000-0000-4000-8000-000000000103,Nebula,Spark-103,nebula.spark-103@starcheckout.space,14.39,22,Helios Ring,Nebula Blue,20000000-0000-4000-8000-000000000008
 10000000-0000-4000-8000-000000000104,Quasar,Beacon-104,quasar.beacon-104@starcheckout.space,21.52,33,Kepler-442b,Cosmic Red,20000000-0000-4000-8000-000000000007
 10000000-0000-4000-8000-000000000105,Zenith,Drift-105,zenith.drift-105@starcheckout.space,28.65,44,Proxima Station,Cosmic Red,20000000-0000-4000-8000-000000000006
-10000000-0000-4000-8000-000000000106,Pulsar,Seeker-106,pulsar.seeker-106@starcheckout.space,35.78,55,Io Relay,Cosmic Red,20000000-0000-4000-8000-000000000005
+10000000-0000-4000-8000-000000000106,Pulsar,Seeker-106,pulsar.seeker-106@starcheckout.space,35.78,55,Kepler-23,Cosmic Red,20000000-0000-4000-8000-000000000005
 10000000-0000-4000-8000-000000000107,Comet,Rider-107,comet.rider-107@starcheckout.space,42.91,66,Titan Outpost,Galactic Green,20000000-0000-4000-8000-000000000004
 10000000-0000-4000-8000-000000000108,Meteor,Spark-108,meteor.spark-108@starcheckout.space,49.04,77,Ceres Hub,Galactic Green,20000000-0000-4000-8000-000000000003
 10000000-0000-4000-8000-000000000109,Photon,Beacon-109,photon.beacon-109@starcheckout.space,56.17,88,Atlas Station,Galactic Green,20000000-0000-4000-8000-000000000002
