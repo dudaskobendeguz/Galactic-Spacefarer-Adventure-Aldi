@@ -105,10 +105,10 @@ class SpacefarerService extends cds.ApplicationService {
          * @see(https://cap.cloud.sap/docs/node.js/core-services#srv-after-request)
          */
         this.after('CREATE', SpaceFarer, async (
-            _,
+            createdSpaceFarer: SpaceFarerRow[],
             req: SpaceFarerCreateRequest
         ): Promise<void> => {
-            const spacefarer: SpaceFarerRow = req.data;
+            const spacefarer = Array.isArray(createdSpaceFarer) ? createdSpaceFarer[0] : createdSpaceFarer;
             const spacefarerId = spacefarer.ID;
 
             LOG.debug('After CREATE SpaceFarer', { spacefarerId, spacefarer });
@@ -165,7 +165,10 @@ class SpacefarerService extends cds.ApplicationService {
             SELECT.one // https://cap.cloud.sap/docs/node.js/cds-ql#one
                 .from('galactic.spacefarer.adventure.SpacesuitColorBoundary') // https://cap.cloud.sap/docs/node.js/cds-ql#select-from
                 .columns('ID', 'color', 'stardustCollection_min', 'stardustCollection_max') // https://cap.cloud.sap/docs/node.js/cds-ql#columns
-                .where(`stardustCollection_min <= ${stardustCollection} AND stardustCollection_max >= ${stardustCollection}`) // https://cap.cloud.sap/docs/node.js/cds-ql#where
+                .where({
+                    stardustCollection_min: { '<=': stardustCollection },
+                    stardustCollection_max: { '>=': stardustCollection }
+                }) // https://cap.cloud.sap/docs/node.js/cds-ql#where
         );
     }
 
@@ -174,7 +177,10 @@ class SpacefarerService extends cds.ApplicationService {
             SELECT.one
                 .from('galactic.spacefarer.adventure.Position')
                 .columns('ID', 'title', 'skillBoundary_min', 'skillBoundary_max')
-                .where(`skillBoundary_min <= ${wormholeNavigationSkill} AND skillBoundary_max >= ${wormholeNavigationSkill}`)
+                .where({
+                    skillBoundary_min: { '<=': wormholeNavigationSkill },
+                    skillBoundary_max: { '>=': wormholeNavigationSkill }
+                })
         );
     }
 
