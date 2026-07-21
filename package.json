@@ -30,9 +30,8 @@
     "compile:db": "cds compile './db' --to sql",
     "test:cap:log": "CDS_PLUGIN_UI5_ACTIVE=false CDS_ENV=test CDS_TEST_SILENT=false DEBUG=spacefarer-service,notification-service-mock tsx --test test/**/*.test.ts",
     "test:cap": "CDS_PLUGIN_UI5_ACTIVE=false CDS_ENV=test tsx --test test/**/*.test.ts",
-    "prepare": "husky",
-    "watch-spacefarers": "cds watch --open galactic.spacefarer.adventure.spacefarers/index.html?sap-ui-xx-viewCache=false --livereload false"
-  },
+    "prepare": "husky"
+},
   "cds": {
     "server": {
       "exit_on_multi_install": false
