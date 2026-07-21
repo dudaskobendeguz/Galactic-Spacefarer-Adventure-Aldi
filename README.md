@@ -10,6 +10,7 @@ File or Folder | Purpose
 ---------|----------
 `app/` | UI frontend artifacts
 `db/` | CDS data model and CSV seed data
+`docs/` | project documentation, task assets and personal notes
 `srv/` | service definition (`SpaceFarerService`), event handlers, and notification services
 `test/` | automated integration tests and isolated test CSV fixtures
 `test/http/` | HTTP request scenarios for auth and CRUD validation
@@ -23,7 +24,7 @@ File or Folder | Purpose
 npm install
 ```
 
-> **Important:** `npm install` automatically runs a `postinstall` script that deletes a bundled duplicate of `@sap/cds` shipped inside `@sap/cds-dk`. Without this, CAP prints an error about `@sap/cds` being loaded from two locations and the dev server may fail. See [Known Issue](#known-issue-sap-cds-loaded-from-different-locations) for full details.
+> **Important:** `npm install` automatically runs a `postinstall` script that deletes a bundled duplicate of `@sap/cds` shipped inside `@sap/cds-dk`. Without this, CAP prints an error about `@sap/cds` being loaded from two locations and the dev server may fail. See [Known Issue](#known-issue-sapcds-loaded-from-different-locations) for full details.
 
 2. Deploy the local database (one-time setup):
 
@@ -42,7 +43,7 @@ This creates the `db.sqlite` file and populates it with CSV seed data. You only 
 npm run dev
 ```
 
-4. Alternative profile for managed-company browsers (dummy auth):
+4. Alternative profile for [managed-company](#submission-notes) browsers (dummy auth):
 
 ```bash
 npm run dev:company
@@ -141,6 +142,8 @@ Current test organization:
 - Position Entity (`@readonly` behavior)
 
 The suite verifies authenticated access, role-based behavior, and entity-level write restrictions.
+
+Note: Due to time constraints, I generated parts of the test artifacts with AI, specifically [test/space-farer-service.test.ts](test/space-farer-service.test.ts) and files under [test/http](test/http). These checks were used to validate the implementation as a practical baseline.
 
 ## Task 3 - Cosmic Event Handlers
 
@@ -245,10 +248,13 @@ This forces `@sap/cds-dk` to use the single root-level `@sap/cds`, eliminating t
 
 **When this can be removed:** Once SAP releases a version of `@sap/cds-dk` that bundles `@sap/cds@10.0.4` (or stops using `bundleDependencies`), the `postinstall` script can be deleted.
 
-The project also sets `cds.server.exit_on_multi_install = false` in `package.json` as an additional safety net so the dev server does not crash if the duplicate is somehow detected despite the postinstall cleanup.
-
 ## References
 
 - CAP docs: https://cap.cloud.sap
 - CAP security authorization: https://cap.cloud.sap/docs/guides/security/authorization
 - CAP mocked auth: https://cap.cloud.sap/docs/node.js/authentication#mocked
+
+## Find More Projects
+
+- GitHub repositories: https://github.com/dudaskobendeguz?tab=repositories
+- GitLab projects: https://gitlab.com/users/dudaskobende/projects
