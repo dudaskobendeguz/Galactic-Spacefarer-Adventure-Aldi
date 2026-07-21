@@ -250,3 +250,8 @@ This forces `@sap/cds-dk` to use the single root-level `@sap/cds`, eliminating t
 - CAP docs: https://cap.cloud.sap
 - CAP security authorization: https://cap.cloud.sap/docs/guides/security/authorization
 - CAP mocked auth: https://cap.cloud.sap/docs/node.js/authentication#mocked
+
+## Find More Projects
+
+- GitHub repositories: https://github.com/dudaskobendeguz?tab=repositories
+- GitLab projects: https://gitlab.com/users/dudaskobende/projects
