@@ -22,5 +22,11 @@ jobs:
       - name: Compile CDS schema
         run: npm run compile:db
 
-      - name: Run tests
-        run: npm test
+      - name: Build CAP artifacts
+        run: npm run build:cap
+
+      - name: Build Fiori UI module
+        run: npm run build:ui
+
+      - name: Run CAP tests
+        run: npm run test:cap
