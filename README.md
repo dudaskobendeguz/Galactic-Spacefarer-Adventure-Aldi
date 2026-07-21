@@ -36,7 +36,7 @@ npm run dev:company
 4. Run automated tests:
 
 ```bash
-npm test
+npm run test:cap
 ```
 
 ## Scripts
@@ -44,8 +44,13 @@ npm test
 - `npm run dev` -> `cds watch`
 - `npm run dev:company` -> `cds watch --profile development-company`
 - `npm run start` -> `cds-serve`
+- `npm run build` -> build CAP artifacts (`cds build`)
+- `npm run build:cap` -> build CAP artifacts only
+- `npm run build:ui` -> build Fiori UI module (`app/spacefarers`)
+- `npm run build:all` -> build CAP + Fiori UI modules
 - `npm run compile:db` -> compile CDS model in `db/` to SQL
-- `npm test` -> run integration tests in the `test` CAP profile (`CDS_ENV=test`)
+- `npm run test:cap` -> run CAP test suite in `test` profile
+- `npm run test:cap:log` -> run CAP test suite with verbose debug logs
 - `npm run repl` -> CAP REPL
 
 ## Services and Authorization (Current State)
@@ -95,7 +100,7 @@ In `srv/admin-service.cds`:
 
 - `auth.kind = mocked` with the same `space-admin` and `space-viewer` users
 - In-memory SQLite
-- Activated by `npm test` via `CDS_ENV=test`
+- Activated by `npm run test:cap` via `CDS_ENV=test`
 
 ## HTTP Validation Scenarios
 
@@ -170,7 +175,7 @@ Workflow: `.github/workflows/compile.yml`
 - Steps:
 	- install dependencies (`npm ci`)
 	- compile CDS model (`npm run compile:db`)
-	- run tests (`npm test`)
+	- run tests (`npm run test:cap`)
 
 ## Data Notes
 
@@ -201,6 +206,14 @@ The CAP service itself is configured correctly and returns the expected auth cha
 Because the browser prompt is blocked by policy, authentication and authorization validation were executed with API clients (`curl` and HTTP test files in `test/http/`).
 
 To continue local UI development despite this environment constraint, an additional local profile `development-company` (`auth.kind = dummy`) is provided. Security validation is still performed with the secure `development` profile (`auth.kind = mocked`).
+
+## CAP Runtime Note (`exit_on_multi_install`)
+
+The project sets `cds.server.exit_on_multi_install = false` in `package.json` to avoid local dev server termination when `@sap/cds` is detected from multiple installation paths during `cds watch` with UI tooling integration.
+
+Why this exists: starting with the CAP change documented in May 2025, `cds-serve` fails by default if multiple `@sap/cds` installation paths are detected to prevent inconsistent runtime state.
+
+Reference: https://cap.cloud.sap/docs/releases/2025/changelog#may-25-changed
 
 ## References
 

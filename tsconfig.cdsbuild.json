@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "allowImportingTsExtensions": false,
+    "outDir": "./gen/srv",
+    "rootDir": "."
+  },
+  "include": [
+    "srv/**/*.ts"
+  ],
+  "exclude": [
+    "app/**",
+    "test/**",
+    "gen/**",
+    "node_modules/**"
+  ]
+}

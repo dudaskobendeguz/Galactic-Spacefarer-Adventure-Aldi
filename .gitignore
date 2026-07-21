@@ -2,10 +2,17 @@ node_modules/
 target/
 _out/
 gen/
+dist/
+app/*/dist/
+app/*/.appGenInfo.json
+app/*/.ui5/
 
 .cdsrc-private.json
 default-*.json
 *.sqlite
+
+# Editor settings
+.vscode/
 
 # MTA
 mta_archives/

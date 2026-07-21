@@ -1,0 +1,24 @@
+.spacesuitColorText[data-suitcolor="Nebula Blue"] {
+    color: #1f6feb;
+    font-weight: 700;
+}
+
+.spacesuitColorText[data-suitcolor="Cosmic Red"] {
+    color: #d92d20;
+    font-weight: 700;
+}
+
+.spacesuitColorText[data-suitcolor="Galactic Green"] {
+    color: #2f8f46;
+    font-weight: 700;
+}
+
+.spacesuitColorText[data-suitcolor="Stellar Silver"] {
+    color: #667085;
+    font-weight: 700;
+}
+
+.spacesuitColorText[data-suitcolor="Quantum Purple"] {
+    color: #7a3de0;
+    font-weight: 700;
+}
