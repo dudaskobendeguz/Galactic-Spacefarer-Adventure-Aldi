@@ -6,13 +6,19 @@ echo "CDS compile passed."
 
 echo "Running CDS build check..."
 
-npm run build 2>&1
+npm run build:cap 2>&1
 
 echo "CDS build passed."
 
+echo "Running CDS UI build check..."
+
+npm run build:ui 2>&1
+
+echo "CDS UI build passed."
+
 echo "Running CDS test check..."
 
-npm run test 2>&1
+npm run test:cap 2>&1
 
 echo "CDS test passed."
 

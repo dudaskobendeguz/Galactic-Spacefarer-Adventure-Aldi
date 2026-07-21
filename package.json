@@ -15,19 +15,28 @@
     "@types/node": "^24.0.0",
     "husky": "^9.1.7",
     "tsx": "^4",
-    "typescript": "^6.0.0"
+    "typescript": "^6.0.0",
+    "cds-plugin-ui5": "^0.17.0"
   },
   "scripts": {
     "start": "cds-serve",
     "dev:company": "DEBUG=spacefarer-service,notification-service-mock cds watch --profile development-company",
     "dev": "cds watch",
-    "build": "cds build",
+    "build": "npm run build:cap",
+    "build:cap": "cds build",
+    "build:ui": "npm --prefix app/spacefarers run build",
+    "build:all": "npm run build:cap && npm run build:ui",
     "repl": "cds repl ./",
     "compile:db": "cds compile './db' --to sql",
-    "test": "CDS_ENV=test tsx --test",
-    "prepare": "husky"
+    "test:cap:log": "CDS_PLUGIN_UI5_ACTIVE=false CDS_ENV=test CDS_TEST_SILENT=false DEBUG=spacefarer-service,notification-service-mock tsx --test test/**/*.test.ts",
+    "test:cap": "CDS_PLUGIN_UI5_ACTIVE=false CDS_ENV=test tsx --test test/**/*.test.ts",
+    "prepare": "husky",
+    "watch-spacefarers": "cds watch --open galactic.spacefarer.adventure.spacefarers/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "cds": {
+    "server": {
+      "exit_on_multi_install": false
+    },
     "[development]": {
       "requires": {
         "db": {
@@ -69,6 +78,7 @@
     },
     "[development-company]": {
       "requires": {
+        "scheduling": false,
         "db": {
           "kind": "sqlite",
           "credentials": {
@@ -133,5 +143,11 @@
   "private": true,
   "imports": {
     "#cds-models/*": "./@cds-models/*/index.js"
-  }
+  },
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/spacefarers"
+  ]
 }

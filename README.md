@@ -202,6 +202,14 @@ Because the browser prompt is blocked by policy, authentication and authorizatio
 
 To continue local UI development despite this environment constraint, an additional local profile `development-company` (`auth.kind = dummy`) is provided. Security validation is still performed with the secure `development` profile (`auth.kind = mocked`).
 
+## CAP Runtime Note (`exit_on_multi_install`)
+
+The project sets `cds.server.exit_on_multi_install = false` in `package.json` to avoid local dev server termination when `@sap/cds` is detected from multiple installation paths during `cds watch` with UI tooling integration.
+
+Why this exists: starting with the CAP change documented in May 2025, `cds-serve` fails by default if multiple `@sap/cds` installation paths are detected to prevent inconsistent runtime state.
+
+Reference: https://cap.cloud.sap/docs/releases/2025/changelog#may-25-changed
+
 ## References
 
 - CAP docs: https://cap.cloud.sap
