@@ -3,42 +3,43 @@ annotate service.SpaceFarer with @(
     UI.FieldGroup #GeneratedGroup : {
         $Type : 'UI.FieldGroupType',
         Data : [
+        {
+            $Type : 'UI.DataField',
+            Label : 'First Name',
+            Value : firstName,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'Last Name',
+            Value : lastName,
+        },
+        {
+            $Type : 'UI.DataFieldForAnnotation',
+            Target : '@Communication.Contact#contact',
+            Label : 'Contact',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : originPlanet,
+            Label : 'Planet',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : position.title,
+            Label : 'Title',
+            @UI.Importance : #High,
+        },
             {
                 $Type : 'UI.DataField',
-                Label : 'firstName',
-                Value : firstName,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'lastName',
-                Value : lastName,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'email',
-                Value : email,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'stardustCollection',
-                Value : stardustCollection,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'wormholeNavigationSkill',
                 Value : wormholeNavigationSkill,
+                Label : 'Wormhole Navigation Skill',
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'originPlanet',
-                Value : originPlanet,
+                Value : stardustCollection,
+                Label : 'stardustCollection',
             },
-            {
-                $Type : 'UI.DataField',
-                Label : 'spacesuitColor',
-                Value : spacesuitColor,
-            },
-        ],
+    ],
     },
     UI.Facets : [
         {
@@ -84,11 +85,6 @@ annotate service.SpaceFarer with @(
             $Type : 'UI.DataFieldForAnnotation',
             Target : '@UI.Chart#stardustCollection',
             Label : 'Stardust Collection',
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : spacesuitColor,
-            Label : 'Spacesuit Color',
         },
     ],
     UI.SelectionFields : [
@@ -222,5 +218,13 @@ annotate service.SpaceFarer with {
 
 annotate service.Position with {
     title @Common.Label : 'position/title'
+};
+
+annotate service.SpaceFarer with {
+    stardustCollection @Measures.Unit : '%'
+};
+
+annotate service.SpaceFarer with {
+    wormholeNavigationSkill @Measures.Unit : '/100'
 };
 

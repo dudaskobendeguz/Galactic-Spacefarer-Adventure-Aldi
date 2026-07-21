@@ -78,7 +78,11 @@
       }
     },
     "resources": {
-      "css": []
+      "css": [
+        {
+          "uri": "css/spacesuit-color.css"
+        }
+      ]
     },
     "routing": {
       "config": {},
@@ -119,8 +123,14 @@
                     "DataFieldForAnnotation::DataPoint::wormholeNavigationSkill": {
                       "widthIncludingColumnHeader": true
                     },
-                    "DataField::spacesuitColor": {
-                      "widthIncludingColumnHeader": true
+                    "SpaceSuitColor": {
+                      "header": "Spacesuit",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "DataFieldForAnnotation::Chart::stardustCollection"
+                      },
+                      "template": "galactic.spacefarer.adventure.spacefarers.ext.fragment.SpaceSuitColor",
+                      "importance": "Low"
                     }
                   }
                 }
@@ -136,7 +146,21 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/SpaceFarer"
+              "contextPath": "/SpaceFarer",
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.FieldGroup#GeneratedGroup": {
+                  "fields": {
+                    "SpaceSuitColor": {
+                      "template": "galactic.spacefarer.adventure.spacefarers.ext.fragment.SpaceSuitColor",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "DataField::stardustCollection"
+                      },
+                      "label": "Space Suit"
+                    }
+                  }
+                }
+              }
             }
           }
         }

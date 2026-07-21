@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Text id="SpaceSuitColorText" text="{spacesuitColor}" class="spacesuitColorText">
+		<customData>
+			<core:CustomData key="suitcolor" value="{spacesuitColor}" writeToDom="true" />
+		</customData>
+	</Text>
+</core:FragmentDefinition>
