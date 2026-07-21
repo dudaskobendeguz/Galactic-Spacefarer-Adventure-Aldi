@@ -37,7 +37,7 @@ annotate service.SpaceFarer with @(
             {
                 $Type : 'UI.DataField',
                 Value : stardustCollection,
-                Label : 'stardustCollection',
+                Label : 'Stardust Collection',
             },
     ],
     },
@@ -182,7 +182,36 @@ annotate service.SpaceFarer with @(
             },
         ],
     },
+    UI.FieldGroup #Updatedetails : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : wormholeNavigationSkill,
+                Label : 'Wormhole Navigation Skill',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : stardustCollection,
+                Label : 'Stardust Collection',
+            },
+        ],
+    },
 );
+
+annotate service.SpaceFarer with {
+    stardustCollection @(
+        Common.Label : 'Stardust Collection',
+        Validation.Minimum : 0,
+        Validation.Maximum : 100,
+    );
+
+    wormholeNavigationSkill @(
+        Common.Label : 'Wormhole Navigation Skill',
+        Validation.Minimum : 0,
+        Validation.Maximum : 100,
+    );
+};
 
 annotate service.SpaceFarer with {
     position @Common.ValueList : {
