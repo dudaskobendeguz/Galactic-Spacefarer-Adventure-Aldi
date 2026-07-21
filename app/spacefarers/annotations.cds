@@ -51,6 +51,12 @@ annotate service.SpaceFarer with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
+            Value : position.title,
+            Label : 'title',
+            @UI.Importance : #High,
+        },
+        {
+            $Type : 'UI.DataField',
             Label : 'firstName',
             Value : firstName,
         },
@@ -66,6 +72,11 @@ annotate service.SpaceFarer with @(
         },
         {
             $Type : 'UI.DataField',
+            Value : originPlanet,
+            Label : 'originPlanet',
+        },
+        {
+            $Type : 'UI.DataField',
             Label : 'stardustCollection',
             Value : stardustCollection,
         },
@@ -74,6 +85,14 @@ annotate service.SpaceFarer with @(
             Label : 'wormholeNavigationSkill',
             Value : wormholeNavigationSkill,
         },
+        {
+            $Type : 'UI.DataField',
+            Value : spacesuitColor,
+            Label : 'spacesuitColor',
+        },
+    ],
+    UI.SelectionFields : [
+        position.title,
     ],
 );
 
@@ -101,5 +120,15 @@ annotate service.SpaceFarer with {
             },
         ],
     }
+};
+
+annotate service.SpaceFarer with {
+    spacesuitColor @(
+        Common.Label : 'spacesuitColor',
+        )
+};
+
+annotate service.Position with {
+    title @Common.Label : 'position/title'
 };
 
