@@ -42,7 +42,7 @@ This creates the `db.sqlite` file and populates it with CSV seed data. You only 
 npm run dev
 ```
 
-4. Alternative profile for managed-company browsers (dummy auth):
+4. Alternative profile for [managed-company](#submission-notes) browsers (dummy auth):
 
 ```bash
 npm run dev:company
