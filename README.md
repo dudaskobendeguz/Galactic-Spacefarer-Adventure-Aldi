@@ -10,6 +10,7 @@ File or Folder | Purpose
 ---------|----------
 `app/` | UI frontend artifacts
 `db/` | CDS data model and CSV seed data
+`docs/` | project documentation, task assets and personal notes
 `srv/` | service definition (`SpaceFarerService`), event handlers, and notification services
 `test/` | automated integration tests and isolated test CSV fixtures
 `test/http/` | HTTP request scenarios for auth and CRUD validation
