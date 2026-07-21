@@ -1,5 +1,7 @@
 # Galactic-Spacefarer-Adventure-Aldi
 
+![Galactic Spacefarer Adventure](docs/images/Cover.png)
+
 SAP CAP project for the Galactic Spacefarer Adventure exercise.
 
 ## Project Structure
@@ -8,7 +10,7 @@ File or Folder | Purpose
 ---------|----------
 `app/` | UI frontend artifacts
 `db/` | CDS data model and CSV seed data
-`srv/` | service definitions (`SpaceFarerService` and `AdminService`)
+`srv/` | service definition (`SpaceFarerService`), event handlers, and notification services
 `test/` | automated integration tests and isolated test CSV fixtures
 `test/http/` | HTTP request scenarios for auth and CRUD validation
 `.github/workflows/` | CI workflow for compile + test checks on pull requests
@@ -80,20 +82,10 @@ In `srv/spacefarer-service.cds`:
 	- Role: `SpacefarerViewer`
 	- Row-level filter: `originPlanet = $user.attr.planet`
 - `SpaceFarer` projection: additional read access for role `SpacefarerAdmin`
-	- Grants: `READ`
+	- Grants: `CREATE`, `READ`, `UPDATE`, `DELETE`
 	- No row-level filter
 - `Department` projection: `@readonly`
 - `Position` projection: `@readonly`
-
-### AdminService
-
-Service path: `/admin-service`
-
-In `srv/admin-service.cds`:
-
-- Service level: `@requires: 'authenticated-user'`
-- Exposes direct projections for `SpaceFarer`, `Department`, and `Position`
-- No entity-level `@restrict` or `@readonly` annotations in this service
 
 ## Local Auth Profiles
 
@@ -181,13 +173,15 @@ Task 3 tests in `test/space-farer-service.test.ts` verify:
 
 ## CI (GitHub Actions)
 
-Workflow: `.github/workflows/compile.yml`
+Workflow: `.github/workflows/build-and-test.yml`
 
 - Name: `Build and Test Check`
 - Trigger: pull requests to `main`
 - Steps:
 	- install dependencies (`npm ci`)
 	- compile CDS model (`npm run compile:db`)
+	- build CAP artifacts (`npm run build:cap`)
+	- build Fiori UI module (`npm run build:ui`)
 	- run tests (`npm run test:cap`)
 
 ## Data Notes
