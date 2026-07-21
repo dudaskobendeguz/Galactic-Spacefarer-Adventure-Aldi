@@ -23,7 +23,7 @@ File or Folder | Purpose
 npm install
 ```
 
-> **Important:** `npm install` automatically runs a `postinstall` script that deletes a bundled duplicate of `@sap/cds` shipped inside `@sap/cds-dk`. Without this, CAP prints an error about `@sap/cds` being loaded from two locations and the dev server may fail. See [Known Issue](#known-issue-sap-cds-loaded-from-different-locations) for full details.
+> **Important:** `npm install` automatically runs a `postinstall` script that deletes a bundled duplicate of `@sap/cds` shipped inside `@sap/cds-dk`. Without this, CAP prints an error about `@sap/cds` being loaded from two locations and the dev server may fail. See [Known Issue](#known-issue-sapcds-loaded-from-different-locations) for full details.
 
 2. Deploy the local database (one-time setup):
 
