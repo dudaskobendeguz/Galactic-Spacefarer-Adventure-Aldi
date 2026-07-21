@@ -1,6 +1,7 @@
 import cds from '@sap/cds'
 import { randomUUID } from 'node:crypto'
 import { MockNotificationService } from '../srv/notification-mock-service.ts'
+import { SpaceFarer } from '#cds-models/galactic/spacefarer/adventure'
 
 process.env.CDS_ENV = process.env.CDS_ENV ?? 'test'
 
@@ -381,8 +382,8 @@ describe('Task 3 - Cosmic Event Handlers', () => {
     expect(Array.isArray(readResponse.data.value)).to.equal(true)
     expect(readResponse.data.value.length).to.be.greaterThan(0)
 
-    const created = readResponse.data.value[0]
-    expect(created.position.id).to.not.equal(EXISTING_POSITION_ID)
+    const created: SpaceFarer = readResponse.data.value[0]
+    expect(created.position?.ID).to.not.equal(EXISTING_POSITION_ID)
     expect(created.spacesuitColor).to.equal('Galactic Green')
     expect(created.position?.title).to.equal('Navigator')
   })
