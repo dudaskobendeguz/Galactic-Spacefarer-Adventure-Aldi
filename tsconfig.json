@@ -13,13 +13,18 @@
     "allowJs": true,
     "types": [
       "node",
-      "jest",
-      "@cap-js/cds-types"
+      "jest"
     ],
     "paths": {
       "#cds-models/*": [
         "./@cds-models/*"
       ]
     }
-  }
+  },
+  "include": [
+    "srv/**/*",
+    "test/**/*",
+    "@cds-models/**/*",
+    "node_modules/@cap-js/cds-types/dist/cds-types.d.ts"
+  ]
 }
