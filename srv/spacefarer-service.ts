@@ -26,7 +26,11 @@ type SpaceFarerCreateBody =
 
 type SpaceFarerCreateRequest = cds.Request<SpaceFarerCreateBody>
 
-type SpaceFarerReadResults = SpaceFarerRow | SpaceFarerRow[] | null;
+type SpaceFarerUpdateBody = Partial<Pick<SpaceFarerCreateBody, 'wormholeNavigationSkill' | 'stardustCollection' | 'position_ID' | 'spacesuitColor'>> & {
+    ID: NonNullable<SpaceFarerRow['ID']>;
+}
+
+type SpaceFarerUpdateRequest = cds.Request<SpaceFarerUpdateBody>
 
 type Position = {
     ID: NonNullable<PositionRow['ID']>;
@@ -62,14 +66,6 @@ class SpacefarerService extends cds.ApplicationService {
             const data: SpaceFarerCreateBody = req.data;
             this.#logger.debug('Before CREATE SpaceFarer', { data });
             const { wormholeNavigationSkill, stardustCollection } = data;
-
-            if (!wormholeNavigationSkill && wormholeNavigationSkill !== 0) {
-                throw cds.error(400, 'wormholeNavigationSkill is required');
-            }
-            if (wormholeNavigationSkill < 0 || wormholeNavigationSkill > 100) {
-                throw cds.error(422, 'wormholeNavigationSkill must be between 0 and 100');
-            }
-
             // Find the position that matches the spacefarer's wormholeNavigationSkill
             const matchingPosition: Position | null = await this._getPositionBySkill(req, wormholeNavigationSkill);
 
@@ -79,12 +75,6 @@ class SpacefarerService extends cds.ApplicationService {
             LOG.debug('Auto-assigning position based on skill level', { skill: wormholeNavigationSkill, position: matchingPosition.title });
             data.position_ID = matchingPosition.ID;
 
-            if (!stardustCollection && stardustCollection !== 0) {
-                throw cds.error(400, 'stardustCollection is required');
-            }
-            if (stardustCollection < 0 || stardustCollection > 100) {
-                throw cds.error(422, 'stardustCollection must be between 0 and 100');
-            }
 
             // Find and auto-assign the spacesuit color based on stardustCollection
             const matchingColorBoundary: SpacesuitColorBoundary | null = await this._getMatchingColorBoundary(req, stardustCollection);
@@ -97,6 +87,37 @@ class SpacefarerService extends cds.ApplicationService {
 
 
             LOG.debug('Requested SpaceFarer', { data, position: matchingPosition });
+        });
+
+        this.before('UPDATE', SpaceFarer, async (req: SpaceFarerUpdateRequest): Promise<void> => {
+            const data: SpaceFarerUpdateBody = req.data;
+            this.#logger.debug('Before UPDATE SpaceFarer', { data });
+            const { wormholeNavigationSkill, stardustCollection } = data;
+
+
+            if (wormholeNavigationSkill !== undefined) {
+                const validatedWormholeNavigationSkill = this.validateWormholeNavigationSkill(data.wormholeNavigationSkill);
+                // Find the position that matches the spacefarer's wormholeNavigationSkill
+                const matchingPosition: Position | null = await this._getPositionBySkill(req, validatedWormholeNavigationSkill);
+
+                if (!matchingPosition) {
+                    throw cds.error(422, `No position found for wormholeNavigationSkill level ${validatedWormholeNavigationSkill}`);
+                }
+                LOG.debug('Auto-assigning position based on skill level', { skill: validatedWormholeNavigationSkill, position: matchingPosition.title });
+                data.position_ID = matchingPosition.ID;
+            }
+
+            if (stardustCollection !== undefined) {
+                const validatedStardustCollection = this.validateStardustCollection(data.stardustCollection);
+                // Find and auto-assign the spacesuit color based on stardustCollection
+                const matchingColorBoundary: SpacesuitColorBoundary | null = await this._getMatchingColorBoundary(req, validatedStardustCollection);
+
+                if (!matchingColorBoundary) {
+                    throw cds.error(422, `No spacesuit color found for stardustCollection level ${validatedStardustCollection}`);
+                }
+                LOG.debug('Auto-assigning spacesuit color based on stardust collection', { stardust: validatedStardustCollection, color: matchingColorBoundary.color });
+                data.spacesuitColor = matchingColorBoundary.color;
+            }
         });
 
         /**
@@ -115,7 +136,7 @@ class SpacefarerService extends cds.ApplicationService {
 
             LOG.debug('After CREATE SpaceFarer', { spacefarerId, spacefarer });
 
-                        
+
             if (!this.#notificationService) {
                 LOG.warn('Cannot send notification: notification service is not available', { spacefarerId });
                 return;
@@ -125,7 +146,7 @@ class SpacefarerService extends cds.ApplicationService {
                 LOG.warn('Cannot send notification: spacefarer email missing from request', { spacefarerId });
                 return;
             }
-            
+
             // Retrieve the position title for the spacefarer to include in the notification email
             const position: Pick<PositionRow, 'title'> | null = spacefarer.position_ID
                 ? await cds.tx(req).run(
@@ -162,26 +183,50 @@ class SpacefarerService extends cds.ApplicationService {
         return super.init();
     }
 
-    private async _getMatchingColorBoundary(req: SpaceFarerCreateRequest, stardustCollection: number): Promise<SpacesuitColorBoundary | null> {
+    private validateStardustCollection(stardustCollection: number | null | undefined) {
+        if (!stardustCollection && stardustCollection !== 0) {
+            throw cds.error(400, 'stardustCollection is required');
+        }
+        if (stardustCollection < 0 || stardustCollection > 100) {
+            throw cds.error(422, 'stardustCollection must be between 0 and 100');
+        }
+        return stardustCollection;
+    }
+
+    private validateWormholeNavigationSkill(wormholeNavigationSkill: number | null | undefined) {
+        if (!wormholeNavigationSkill && wormholeNavigationSkill !== 0) {
+            throw cds.error(400, 'wormholeNavigationSkill is required');
+        }
+        if (wormholeNavigationSkill < 0 || wormholeNavigationSkill > 100) {
+            throw cds.error(422, 'wormholeNavigationSkill must be between 0 and 100');
+        }
+        return wormholeNavigationSkill;
+    }
+
+    private async _getMatchingColorBoundary(req: SpaceFarerCreateRequest | SpaceFarerUpdateRequest, stardustCollection: number | null | undefined): Promise<SpacesuitColorBoundary | null> {
+        const validatedStardustCollection = this.validateStardustCollection(stardustCollection);
+
         return cds.tx(req).run( // https://cap.cloud.sap/docs/node.js/cds-tx
             SELECT.one // https://cap.cloud.sap/docs/node.js/cds-ql#one
                 .from('galactic.spacefarer.adventure.SpacesuitColorBoundary') // https://cap.cloud.sap/docs/node.js/cds-ql#select-from
                 .columns('ID', 'color', 'stardustCollection_min', 'stardustCollection_max') // https://cap.cloud.sap/docs/node.js/cds-ql#columns
                 .where({
-                    stardustCollection_min: { '<=': stardustCollection },
-                    stardustCollection_max: { '>=': stardustCollection }
+                    stardustCollection_min: { '<=': validatedStardustCollection },
+                    stardustCollection_max: { '>=': validatedStardustCollection }
                 }) // https://cap.cloud.sap/docs/node.js/cds-ql#where
         );
     }
 
-    private async _getPositionBySkill(req: SpaceFarerCreateRequest, wormholeNavigationSkill: number): Promise<Position | null> {
+    private async _getPositionBySkill(req: SpaceFarerCreateRequest | SpaceFarerUpdateRequest, wormholeNavigationSkill: number | null | undefined): Promise<Position | null> {
+        const validatedWormholeNavigationSkill = this.validateWormholeNavigationSkill(wormholeNavigationSkill);
+
         return cds.tx(req).run(
             SELECT.one
                 .from('galactic.spacefarer.adventure.Position')
                 .columns('ID', 'title', 'skillBoundary_min', 'skillBoundary_max')
                 .where({
-                    skillBoundary_min: { '<=': wormholeNavigationSkill },
-                    skillBoundary_max: { '>=': wormholeNavigationSkill }
+                    skillBoundary_min: { '<=': validatedWormholeNavigationSkill },
+                    skillBoundary_max: { '>=': validatedWormholeNavigationSkill }
                 })
         );
     }

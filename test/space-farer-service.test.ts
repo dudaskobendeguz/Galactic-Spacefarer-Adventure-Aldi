@@ -40,6 +40,16 @@ const escapeODataString = (value: string): string => value.replace(/'/g, "''")
 const entityUrl = (entitySet: string, keyName: string, keyValue: string) =>
   `${SERVICE_PATH}/${entitySet}(${keyName}='${escapeODataString(keyValue)}')`
 
+const extractIdFromLocation = (location: string): string | null => {
+  const match = /SpaceFarer\(([^)]+)\)/.exec(location)
+  if (!match?.[1]) return null
+
+  const rawKey = decodeURIComponent(match[1])
+  const namedKeyMatch = /^ID='(.+)'$/.exec(rawKey)
+  const candidate = namedKeyMatch ? namedKeyMatch[1] : rawKey.replace(/^'(.+)'$/, '$1')
+  return candidate.replace(/''/g, "'")
+}
+
 const asHttpError = (error: unknown): HttpError => {
   if (typeof error === 'object' && error !== null) return error as HttpError
   return {}
@@ -132,8 +142,8 @@ const createSpaceFarer = async (
 
   if (response.headers?.location) {
     const location = String(response.headers.location)
-    const match = /SpaceFarer\(([^)]+)\)/.exec(location)
-    if (match?.[1]) return match[1]
+    const idFromLocation = extractIdFromLocation(location)
+    if (idFromLocation) return idFromLocation
   }
 
   const lookup = await getAs(
@@ -217,6 +227,12 @@ describe('SpaceFarer Entity', () => {
         VIEWER_AUTH
       )
       expect([200, 204]).to.include(response.status)
+
+      const readResponse = await getAs(entityUrl('SpaceFarer', 'ID', id), VIEWER_AUTH)
+      expect(readResponse.status).to.equal(200)
+      // spacesuitColor is derived from stardustCollection by the UPDATE handler.
+      expect(readResponse.data.stardustCollection).to.equal(99.9)
+      expect(readResponse.data.spacesuitColor).to.equal('Quantum Purple')
     } catch (error: unknown) {
       expect([403, 404]).to.include(asHttpError(error).status)
     }
