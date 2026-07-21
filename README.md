@@ -245,8 +245,6 @@ This forces `@sap/cds-dk` to use the single root-level `@sap/cds`, eliminating t
 
 **When this can be removed:** Once SAP releases a version of `@sap/cds-dk` that bundles `@sap/cds@10.0.4` (or stops using `bundleDependencies`), the `postinstall` script can be deleted.
 
-The project also sets `cds.server.exit_on_multi_install = false` in `package.json` as an additional safety net so the dev server does not crash if the duplicate is somehow detected despite the postinstall cleanup.
-
 ## References
 
 - CAP docs: https://cap.cloud.sap
