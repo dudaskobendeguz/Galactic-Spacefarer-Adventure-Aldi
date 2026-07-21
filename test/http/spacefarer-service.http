@@ -52,7 +52,8 @@ PATCH {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}')
 Content-Type: application/json
 
 {
-  "spacesuitColor": "Stellar Silver"
+  "wormholeNavigationSkill": "8",
+  "stardustCollection": "9.9"
 }
 
 ### Unauthenticated: DELETE

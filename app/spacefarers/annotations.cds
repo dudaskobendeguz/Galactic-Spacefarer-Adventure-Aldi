@@ -37,7 +37,7 @@ annotate service.SpaceFarer with @(
             {
                 $Type : 'UI.DataField',
                 Value : stardustCollection,
-                Label : 'stardustCollection',
+                Label : 'Stardust Collection',
             },
     ],
     },
@@ -50,6 +50,12 @@ annotate service.SpaceFarer with @(
         },
     ],
     UI.LineItem : [
+        {
+            $Type : 'UI.DataField',
+            Value : position.title,
+            Label : 'Title',
+            @UI.Importance : #High,
+        },
         {
             $Type : 'UI.DataField',
             Label : 'First Name',
@@ -71,12 +77,6 @@ annotate service.SpaceFarer with @(
             Label : 'Planet',
         },
         {
-            $Type : 'UI.DataField',
-            Value : position.title,
-            Label : 'Title',
-            @UI.Importance : #High,
-        },
-        {
             $Type : 'UI.DataFieldForAnnotation',
             Target : '@UI.DataPoint#wormholeNavigationSkill',
             Label : 'Wormhole Navigation Skill',
@@ -96,6 +96,26 @@ annotate service.SpaceFarer with @(
             $Type : 'UI.PresentationVariantType',
             Visualizations : [
                 '@UI.LineItem',
+            ],
+            SortOrder : [
+                {
+                    $Type : 'Common.SortOrderType',
+                    Property : wormholeNavigationSkill,
+                    Descending : true,
+                },
+                {
+                    $Type : 'Common.SortOrderType',
+                    Property : lastName,
+                    Descending : false,
+                },
+                {
+                    $Type : 'Common.SortOrderType',
+                    Property : originPlanet,
+                    Descending : false,
+                },
+            ],
+            GroupBy : [
+                spacesuitColor,
             ],
         },
         SelectionVariant : {
@@ -182,7 +202,36 @@ annotate service.SpaceFarer with @(
             },
         ],
     },
+    UI.FieldGroup #Updatedetails : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : wormholeNavigationSkill,
+                Label : 'Wormhole Navigation Skill',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : stardustCollection,
+                Label : 'Stardust Collection',
+            },
+        ],
+    },
 );
+
+annotate service.SpaceFarer with {
+    stardustCollection @(
+        Common.Label : 'Stardust Collection',
+        Validation.Minimum : 0,
+        Validation.Maximum : 100,
+    );
+
+    wormholeNavigationSkill @(
+        Common.Label : 'Wormhole Navigation Skill',
+        Validation.Minimum : 0,
+        Validation.Maximum : 100,
+    );
+};
 
 annotate service.SpaceFarer with {
     position @Common.ValueList : {
@@ -213,6 +262,7 @@ annotate service.SpaceFarer with {
 annotate service.SpaceFarer with {
     spacesuitColor @(
         Common.Label : 'spacesuitColor',
+        Common.Text : lastName,
         )
 };
 
@@ -227,4 +277,8 @@ annotate service.SpaceFarer with {
 annotate service.SpaceFarer with {
     wormholeNavigationSkill @Measures.Unit : '/100'
 };
+// https://github.com/capire/xtravels/blob/b147a1daad27d11352e0d39b525b25ed3241c016/app/travels/capabilities.cds#L3
+// https://cap.cloud.sap/docs/guides/uis/fiori#draft-enabled-entities
+annotate service.SpaceFarer with @odata.draft.enabled: true;
+
 

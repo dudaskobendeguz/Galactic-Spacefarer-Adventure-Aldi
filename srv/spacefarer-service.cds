@@ -18,10 +18,11 @@ service SpaceFarerService @(path: '/spacefarer-service') {
             where: [(originPlanet = $user.attr.planet)]
         },
         {
-            grant: ['READ'],
+            grant: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
             to   : 'SpacefarerAdmin'
         }
     ]
+    @odata.draft.enabled
     entity SpaceFarer as projection on my.SpaceFarer excluding {
         createdAt,
         createdBy,
