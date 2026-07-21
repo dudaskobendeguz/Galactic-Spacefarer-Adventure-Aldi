@@ -248,51 +248,39 @@ describe('SpaceFarer Entity', () => {
     }
   })
 
-  it('denies admin from creating SpaceFarer', async () => {
-    try {
-      await postAs(
-        `${SERVICE_PATH}/SpaceFarer`,
-        {
-          firstName: 'Admin',
-          lastName: 'Attempt',
-          email: `admin.attempt.${Date.now()}@example.com`,
-          stardustCollection: 1,
-          wormholeNavigationSkill: 1,
-          originPlanet: 'Orion Belt',
-          spacesuitColor: 'Cosmic Red',
-          position_ID: EXISTING_POSITION_ID,
-          department: { name: 'Denied Dept' }
-        },
-        ADMIN_AUTH
-      )
-      throw new Error(`Expected write restriction for ${SERVICE_PATH}/SpaceFarer`)
-    } catch (error: unknown) {
-      expectForbiddenLike(asHttpError(error).status)
-    }
+  it('allows admin to create SpaceFarer', async () => {
+    const response = await postAs(
+      `${SERVICE_PATH}/SpaceFarer`,
+      {
+        firstName: 'Admin',
+        lastName: 'Create',
+        email: `admin.create.${Date.now()}@example.com`,
+        stardustCollection: 1,
+        wormholeNavigationSkill: 1,
+        originPlanet: 'Orion Belt',
+        spacesuitColor: 'Cosmic Red',
+        position_ID: EXISTING_POSITION_ID,
+        department: { name: 'Admin Dept' }
+      },
+      ADMIN_AUTH
+    )
+    expect([201, 204]).to.include(response.status)
   })
 
-  it('denies admin from updating SpaceFarer', async () => {
+  it('allows admin to update SpaceFarer', async () => {
     const existingId = await getAnySpaceFarerIdAsAdmin()
-    try {
-      await patchAs(
-        entityUrl('SpaceFarer', 'ID', existingId),
-        { spacesuitColor: 'Galactic Green' },
-        ADMIN_AUTH
-      )
-      throw new Error('Expected admin update to be denied')
-    } catch (error: unknown) {
-      expectForbiddenLike(asHttpError(error).status)
-    }
+    const response = await patchAs(
+      entityUrl('SpaceFarer', 'ID', existingId),
+      { stardustCollection: 25 },
+      ADMIN_AUTH
+    )
+    expect([200, 204]).to.include(response.status)
   })
 
-  it('denies admin from deleting SpaceFarer', async () => {
-    const existingId = await getAnySpaceFarerIdAsAdmin()
-    try {
-      await deleteAs(entityUrl('SpaceFarer', 'ID', existingId), ADMIN_AUTH)
-      throw new Error('Expected admin delete to be denied')
-    } catch (error: unknown) {
-      expectForbiddenLike(asHttpError(error).status)
-    }
+  it('allows admin to delete SpaceFarer', async () => {
+    const id = await createSpaceFarer('AdminDelete', 'Orion Belt')
+    const response = await deleteAs(entityUrl('SpaceFarer', 'ID', id), ADMIN_AUTH)
+    expect([200, 204, 404]).to.include(response.status)
   })
 })
 

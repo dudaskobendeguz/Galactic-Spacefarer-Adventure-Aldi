@@ -18,7 +18,7 @@ service SpaceFarerService @(path: '/spacefarer-service') {
             where: [(originPlanet = $user.attr.planet)]
         },
         {
-            grant: ['READ'],
+            grant: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
             to   : 'SpacefarerAdmin'
         }
     ]

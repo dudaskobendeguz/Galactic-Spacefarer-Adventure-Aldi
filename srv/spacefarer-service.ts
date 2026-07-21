@@ -92,8 +92,15 @@ class SpacefarerService extends cds.ApplicationService {
         this.before('UPDATE', SpaceFarer, async (req: SpaceFarerUpdateRequest): Promise<void> => {
             const data: SpaceFarerUpdateBody = req.data;
             this.#logger.debug('Before UPDATE SpaceFarer', { data });
-            const { wormholeNavigationSkill, stardustCollection } = data;
+            const { wormholeNavigationSkill, stardustCollection, spacesuitColor, position_ID } = data;
 
+            if (position_ID !== undefined) {
+                throw cds.error(400, 'position is derived from wormholeNavigationSkill and cannot be updated directly');
+            }
+
+            if (spacesuitColor !== undefined) {
+                throw cds.error(400, 'spacesuitColor is derived from stardustCollection and cannot be updated directly');
+            }
 
             if (wormholeNavigationSkill !== undefined) {
                 const validatedWormholeNavigationSkill = this.validateWormholeNavigationSkill(data.wormholeNavigationSkill);
