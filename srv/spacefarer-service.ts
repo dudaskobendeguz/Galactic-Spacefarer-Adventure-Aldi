@@ -94,11 +94,11 @@ class SpacefarerService extends cds.ApplicationService {
             this.#logger.debug('Before UPDATE SpaceFarer', { data });
             const { wormholeNavigationSkill, stardustCollection, spacesuitColor, position_ID } = data;
 
-            if (position_ID !== undefined) {
+            if (position_ID !== undefined && wormholeNavigationSkill === undefined) {
                 throw cds.error(400, 'position is derived from wormholeNavigationSkill and cannot be updated directly');
             }
 
-            if (spacesuitColor !== undefined) {
+            if (spacesuitColor !== undefined && stardustCollection === undefined) {
                 throw cds.error(400, 'spacesuitColor is derived from stardustCollection and cannot be updated directly');
             }
 

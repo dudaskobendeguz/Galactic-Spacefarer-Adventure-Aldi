@@ -17,7 +17,7 @@ define entity SpaceFarer : cuid, managed {
 
     // Cosmic fields (Task 1 requirements)
     stardustCollection      : Decimal(10, 2) @assert.range: [(0), 100] default 0.0; // Stardust collection in decimal format with a range constraint
-    wormholeNavigationSkill : UInt8          @mandatory @assert.range: [(0), 100] default 1; // skill level 1–100 https://cap.cloud.sap/docs/guides/services/constraints#assertrange
+    wormholeNavigationSkill : Integer        @mandatory @assert.range: [(0), 100] default 1; // skill level 1–100 https://cap.cloud.sap/docs/guides/services/constraints#assertrange
     originPlanet            : OriginPlanet;
     // spacesuitColor is auto-assigned based on stardustCollection
     spacesuitColor          : SpacesuitColor; // e.g. "Nebula Blue"

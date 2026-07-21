@@ -22,6 +22,7 @@ service SpaceFarerService @(path: '/spacefarer-service') {
             to   : 'SpacefarerAdmin'
         }
     ]
+    @odata.draft.enabled
     entity SpaceFarer as projection on my.SpaceFarer excluding {
         createdAt,
         createdBy,
