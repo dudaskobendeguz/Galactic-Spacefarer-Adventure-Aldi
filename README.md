@@ -143,6 +143,8 @@ Current test organization:
 
 The suite verifies authenticated access, role-based behavior, and entity-level write restrictions.
 
+Note: Due to time constraints, I generated parts of the test artifacts with AI, specifically [test/space-farer-service.test.ts](test/space-farer-service.test.ts) and files under [test/http](test/http). These checks were used to validate the implementation as a practical baseline.
+
 ## Task 3 - Cosmic Event Handlers
 
 Task 3 is implemented in `srv/spacefarer-service.ts` using CAP lifecycle hooks on `CREATE` for `SpaceFarer`.
