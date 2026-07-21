@@ -9,7 +9,7 @@ app/*/.ui5/
 
 .cdsrc-private.json
 default-*.json
-*.sqlite
+*.sqlite*
 
 # Editor settings
 .vscode/
