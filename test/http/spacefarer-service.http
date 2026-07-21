@@ -40,10 +40,8 @@ Content-Type: application/json
   "lastName": "Tester",
   "email": "local.tester.mars@example.com",
   "stardustCollection": 42.5,
-  "wormholeNavigationSkill": 75,
+  "wormholeNavigationSkill": 77,
   "originPlanet": "Mars",
-  "spacesuitColor": "Nebula Blue",
-  "position_ID": "{{existingPositionId}}",
   "department": {
     "name": "Exploration"
   }
@@ -71,6 +69,7 @@ GET {{baseUrl}}/SpaceFarer
 Authorization: {{viewerAuth}}
 
 ### Viewer: CREATE own Mars record (expect 201)
+### Note: position_ID and spacesuitColor are auto-assigned based on wormholeNavigationSkill and stardustCollection
 POST {{baseUrl}}/SpaceFarer
 Content-Type: application/json
 Authorization: {{viewerAuth}}
@@ -83,8 +82,6 @@ Authorization: {{viewerAuth}}
   "stardustCollection": 42.5,
   "wormholeNavigationSkill": 75,
   "originPlanet": "Mars",
-  "spacesuitColor": "Nebula Blue",
-  "position_ID": "{{existingPositionId}}",
   "department": {
     "name": "Exploration"
   }
@@ -129,8 +126,6 @@ Authorization: {{adminAuth}}
   "stardustCollection": 11.0,
   "wormholeNavigationSkill": 44,
   "originPlanet": "Earth",
-  "spacesuitColor": "Cosmic Red",
-  "position_ID": "{{existingPositionId}}",
   "department": {
     "name": "Blocked Dept"
   }

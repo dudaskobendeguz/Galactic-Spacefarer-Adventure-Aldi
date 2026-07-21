@@ -1,5 +1,7 @@
 import cds from '@sap/cds'
 import { randomUUID } from 'node:crypto'
+import { MockNotificationService } from '../srv/notification-mock-service.ts'
+import { SpaceFarer } from '#cds-models/galactic/spacefarer/adventure'
 
 process.env.CDS_ENV = process.env.CDS_ENV ?? 'test'
 
@@ -79,7 +81,31 @@ const getAnySpaceFarerIdAsAdmin = async () => {
   return read.data.value[0].ID as string
 }
 
-const createSpaceFarer = async (suffix: string, originPlanet: string) => {
+const createCandidatePayload = (
+  suffix: string,
+  originPlanet: string,
+  overrides: Partial<SpaceFarerPayload> = {}
+): SpaceFarerPayload => ({
+  ID: randomUUID(),
+  firstName: `Task3${suffix}`,
+  lastName: 'Candidate',
+  email: `task3.${suffix.toLowerCase()}.${Date.now()}@starcheckout.space`,
+  stardustCollection: 55.5,
+  wormholeNavigationSkill: 55,
+  originPlanet,
+  spacesuitColor: 'Cosmic Red',
+  position_ID: EXISTING_POSITION_ID,
+  department: {
+    name: `Task3 Dept ${suffix}`
+  },
+  ...overrides
+})
+
+const createSpaceFarer = async (
+  suffix: string,
+  originPlanet: string,
+  overrides: Partial<SpaceFarerPayload> = {}
+) => {
   const email = `captain.email.${suffix.toLowerCase()}.${Date.now()}@starcheckout.space`
   const firstName = `Test${suffix}`
   const id = randomUUID()
@@ -95,7 +121,8 @@ const createSpaceFarer = async (suffix: string, originPlanet: string) => {
     position_ID: EXISTING_POSITION_ID,
     department: {
       name: `Dept ${suffix}`
-    }
+    },
+    ...overrides
   }
 
   const response = await postAs(`${SERVICE_PATH}/SpaceFarer`, payload, VIEWER_AUTH)
@@ -330,6 +357,97 @@ describe('Position Entity (@readonly)', () => {
       throw new Error(`Expected readonly failure for ${positionUrl}`)
     } catch (error: unknown) {
       expectForbiddenLike(asHttpError(error).status)
+    }
+  })
+})
+
+describe('Task 3 - Cosmic Event Handlers', () => {
+  it('enhances candidate on CREATE by auto-assigning position and spacesuit color', async () => {
+    const payload = createCandidatePayload('Enhance', viewerPlanet(), {
+      wormholeNavigationSkill: 55,
+      stardustCollection: 55.5,
+      // Intentionally wrong values: @Before should overwrite these.
+      position_ID: EXISTING_POSITION_ID,
+      spacesuitColor: 'Cosmic Red'
+    })
+
+    const createResponse = await postAs(`${SERVICE_PATH}/SpaceFarer`, payload, VIEWER_AUTH)
+    expect([201, 204]).to.include(createResponse.status)
+
+    const readResponse = await getAs(
+      `${SERVICE_PATH}/SpaceFarer?$filter=email eq '${escapeODataString(payload.email)}'&$expand=position($select=title)`,
+      ADMIN_AUTH
+    )
+    expect(readResponse.status).to.equal(200)
+    expect(Array.isArray(readResponse.data.value)).to.equal(true)
+    expect(readResponse.data.value.length).to.be.greaterThan(0)
+
+    const created: SpaceFarer = readResponse.data.value[0]
+    expect(created.position?.ID).to.not.equal(EXISTING_POSITION_ID)
+    expect(created.spacesuitColor).to.equal('Galactic Green')
+    expect(created.position?.title).to.equal('Navigator')
+  })
+
+  it('rejects CREATE when wormholeNavigationSkill is above 100', async () => {
+    const payload = createCandidatePayload('BadSkill', viewerPlanet(), {
+      wormholeNavigationSkill: 101,
+      stardustCollection: 50
+    })
+
+    try {
+      await postAs(`${SERVICE_PATH}/SpaceFarer`, payload, VIEWER_AUTH)
+      throw new Error('Expected validation failure for wormholeNavigationSkill > 100')
+    } catch (error: unknown) {
+      const httpError = asHttpError(error)
+      expect([400, 422]).to.include(httpError.status)
+    }
+  })
+
+  it('rejects CREATE when stardustCollection is above 100', async () => {
+    const payload = createCandidatePayload('BadStardust', viewerPlanet(), {
+      wormholeNavigationSkill: 55,
+      stardustCollection: 101
+    })
+
+    try {
+      await postAs(`${SERVICE_PATH}/SpaceFarer`, payload, VIEWER_AUTH)
+      throw new Error('Expected validation failure for stardustCollection > 100')
+    } catch (error: unknown) {
+      const httpError = asHttpError(error)
+      expect([400, 422]).to.include(httpError.status)
+    }
+  })
+
+  it('sends a notification after successful CREATE', async () => {
+    const sentPayloads: Array<{ to?: string }> = []
+    const originalSendNotification = (MockNotificationService.prototype as unknown as {
+      sendNotification: (payload: { to?: string }) => Promise<void>
+    }).sendNotification
+
+    ;(MockNotificationService.prototype as unknown as {
+      sendNotification: (payload: { to?: string }) => Promise<void>
+    }).sendNotification = async function patchedSendNotification(payload: { to?: string }): Promise<void> {
+      sentPayloads.push(payload)
+      return Promise.resolve()
+    }
+
+    try {
+      const payload = createCandidatePayload('Notify', viewerPlanet(), {
+        wormholeNavigationSkill: 55,
+        stardustCollection: 55.5
+      })
+
+      const createResponse = await postAs(`${SERVICE_PATH}/SpaceFarer`, payload, VIEWER_AUTH)
+      expect([201, 204]).to.include(createResponse.status)
+
+      expect(sentPayloads.length).to.be.greaterThan(0)
+      const matchingPayload = sentPayloads.find((eventPayload) => eventPayload.to === payload.email)
+
+      expect(matchingPayload).to.not.equal(undefined)
+    } finally {
+      ;(MockNotificationService.prototype as unknown as {
+        sendNotification: (payload: { to?: string }) => Promise<void>
+      }).sendNotification = originalSendNotification
     }
   })
 })

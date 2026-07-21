@@ -4,8 +4,16 @@ npm run compile:db 2>&1
 
 echo "CDS compile passed."
 
+echo "Running CDS build check..."
+
+npm run build 2>&1
+
+echo "CDS build passed."
+
 echo "Running CDS test check..."
 
 npm run test 2>&1
 
 echo "CDS test passed."
+
+exit 0

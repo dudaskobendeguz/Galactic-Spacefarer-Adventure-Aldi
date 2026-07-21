@@ -9,6 +9,7 @@ using {galactic.spacefarer.adventure as my} from '../db/schema.cds';
  * - The service is accessible via the path '/spacefarer-service'.
  */
 @requires: 'authenticated-user'
+@impl: './spacefarer-service.ts'
 service SpaceFarerService @(path: '/spacefarer-service') {
     @restrict: [
         {
@@ -21,7 +22,12 @@ service SpaceFarerService @(path: '/spacefarer-service') {
             to   : 'SpacefarerAdmin'
         }
     ]
-    entity SpaceFarer as projection on my.SpaceFarer;
+    entity SpaceFarer as projection on my.SpaceFarer excluding {
+        createdAt,
+        createdBy,
+        modifiedAt,
+        modifiedBy
+    };
 
     @readonly
     entity Department as projection on my.Department;

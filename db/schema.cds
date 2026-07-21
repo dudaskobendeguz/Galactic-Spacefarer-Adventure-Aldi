@@ -17,18 +17,22 @@ define entity SpaceFarer : cuid, managed {
 
     // Cosmic fields (Task 1 requirements)
     stardustCollection      : Decimal(10, 2) @assert.range: [(0), 100] default 0.0; // Stardust collection in decimal format with a range constraint
-    wormholeNavigationSkill : UInt8          @assert.range: [(0), 100] default 1; // skill level 1–100 https://cap.cloud.sap/docs/guides/services/constraints#assertrange
+    wormholeNavigationSkill : UInt8          @mandatory @assert.range: [(0), 100] default 1; // skill level 1–100 https://cap.cloud.sap/docs/guides/services/constraints#assertrange
     originPlanet            : OriginPlanet;
+    // spacesuitColor is auto-assigned based on stardustCollection
     spacesuitColor          : SpacesuitColor; // e.g. "Nebula Blue"
 
     // Associations to intergalactic departments and positions
     // [composition](https://cap.cloud.sap/docs/cds/common#composition) -> defines a strong ownership relationship between entities - if a SpaceFarer is deleted, the associated Department will also be deleted
     department              : Composition of Department on department.spaceFarer = $self @mandatory; // Each SpaceFarer must belong to one Department
     // [association](https://cap.cloud.sap/docs/cds/common#association) -> defines a relationship between entities - if a SpaceFarer is deleted, the associated Position will not be deleted
-    position                : Association to Position @mandatory; // Each SpaceFarer must hold one Position
+    position                : Association to Position; // Each SpaceFarer must hold one Position (auto-assigned based on wormholeNavigationSkill)
 }
 
 
+// ─────────────────────────────────────────────
+//  Spacefarer – Department Entity
+// ─────────────────────────────────────────────
 define entity Department : managed {
     //[key](https://cap.cloud.sap/docs/guides/databases/cdl-to-ddl#on-delete-cascade) -> defines the primary key of the entity to delete the child entity when the parent entity is deleted
     key spaceFarer: Association to one SpaceFarer; // Department is keyed by its owning SpaceFarer to enforce strict 1:1 (child) relationship
@@ -36,11 +40,22 @@ define entity Department : managed {
 }
 
 // ─────────────────────────────────────────────
+//  Spacefarer – Spacesuit Color Boundary Entity
+// ─────────────────────────────────────────────
+define entity SpacesuitColorBoundary : cuid, managed {
+    color                       : SpacesuitColor @mandatory;
+    stardustCollection_min      : Decimal(10, 2) @assert.range: [(0), 100] @mandatory; // Minimum stardust collection level
+    stardustCollection_max      : Decimal(10, 2) @assert.range: [(0), 100] @mandatory; // Maximum stardust collection level
+}
+
+// ─────────────────────────────────────────────
 //  Spacefarer – Position Entity
-//
+// 
 define entity Position : cuid, managed {
-    title      : PositionTitle @mandatory;
-    spaceFarers: Association to many SpaceFarer on spaceFarers.position = $self; // Each Position can be held by multiple SpaceFarers
+    title               : PositionTitle @mandatory;
+    skillBoundary_min   : UInt8 @assert.range: [(0), 100] @mandatory; // Minimum wormholeNavigationSkill level required
+    skillBoundary_max   : UInt8 @assert.range: [(0), 100] @mandatory; // Maximum wormholeNavigationSkill level allowed
+    spaceFarers         : Association to many SpaceFarer on spaceFarers.position = $self; // Each Position can be held by multiple SpaceFarers
 }
 
 // ─────────────────────────────────────────────
