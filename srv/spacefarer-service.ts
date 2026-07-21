@@ -105,10 +105,12 @@ class SpacefarerService extends cds.ApplicationService {
          * @see(https://cap.cloud.sap/docs/node.js/core-services#srv-after-request)
          */
         this.after('CREATE', SpaceFarer, async (
-            createdSpaceFarer: SpaceFarerRow[],
+            _createdSpaceFarer,
             req: SpaceFarerCreateRequest
         ): Promise<void> => {
-            const spacefarer = Array.isArray(createdSpaceFarer) ? createdSpaceFarer[0] : createdSpaceFarer;
+            // CAP passes an InsertResult (raw DB result) as the first argument for CREATE,
+            // not the entity row. req.data holds the full payload as modified by the before hook.
+            const spacefarer = req.data as SpaceFarerRow;
             const spacefarerId = spacefarer.ID;
 
             LOG.debug('After CREATE SpaceFarer', { spacefarerId, spacefarer });
@@ -210,4 +212,4 @@ The Galactic Command Center 🌌`;
     }
 }
 
-module.exports = SpacefarerService;
+export default SpacefarerService;
