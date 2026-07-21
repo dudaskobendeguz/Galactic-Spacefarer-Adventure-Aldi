@@ -51,49 +51,141 @@ annotate service.SpaceFarer with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
-            Value : position.title,
-            Label : 'title',
-            @UI.Importance : #High,
-        },
-        {
-            $Type : 'UI.DataField',
-            Label : 'firstName',
+            Label : 'First Name',
             Value : firstName,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'lastName',
+            Label : 'Last Name',
             Value : lastName,
         },
         {
-            $Type : 'UI.DataField',
-            Label : 'email',
-            Value : email,
+            $Type : 'UI.DataFieldForAnnotation',
+            Target : '@Communication.Contact#contact',
+            Label : 'Contact',
         },
         {
             $Type : 'UI.DataField',
             Value : originPlanet,
-            Label : 'originPlanet',
+            Label : 'Planet',
         },
         {
             $Type : 'UI.DataField',
-            Label : 'stardustCollection',
-            Value : stardustCollection,
+            Value : position.title,
+            Label : 'Title',
+            @UI.Importance : #High,
         },
         {
-            $Type : 'UI.DataField',
-            Label : 'wormholeNavigationSkill',
-            Value : wormholeNavigationSkill,
+            $Type : 'UI.DataFieldForAnnotation',
+            Target : '@UI.DataPoint#wormholeNavigationSkill',
+            Label : 'Wormhole Navigation Skill',
+        },
+        {
+            $Type : 'UI.DataFieldForAnnotation',
+            Target : '@UI.Chart#stardustCollection',
+            Label : 'Stardust Collection',
         },
         {
             $Type : 'UI.DataField',
             Value : spacesuitColor,
-            Label : 'spacesuitColor',
+            Label : 'Spacesuit Color',
         },
     ],
     UI.SelectionFields : [
         position.title,
     ],
+    UI.SelectionPresentationVariant #tableView : {
+        $Type : 'UI.SelectionPresentationVariantType',
+        PresentationVariant : {
+            $Type : 'UI.PresentationVariantType',
+            Visualizations : [
+                '@UI.LineItem',
+            ],
+        },
+        SelectionVariant : {
+            $Type : 'UI.SelectionVariantType',
+            SelectOptions : [
+            ],
+        },
+        Text : 'Table View',
+    },
+    UI.LineItem #tableView : [
+    ],
+    UI.SelectionPresentationVariant #tableView1 : {
+        $Type : 'UI.SelectionPresentationVariantType',
+        PresentationVariant : {
+            $Type : 'UI.PresentationVariantType',
+            Visualizations : [
+                '@UI.LineItem#tableView',
+            ],
+        },
+        SelectionVariant : {
+            $Type : 'UI.SelectionVariantType',
+            SelectOptions : [
+            ],
+        },
+        Text : 'Table View 1',
+    },
+    UI.DataPoint #wormholeNavigationSkill : {
+        Value : wormholeNavigationSkill,
+        Visualization : #Progress,
+        TargetValue : 100,
+        @Common.QuickInfo : position.title,
+    },
+    Communication.Contact #contact : {
+        $Type : 'Communication.ContactType',
+        fn : email,
+        title : position.title,
+        role : department.name,
+        email : [
+            {
+                $Type : 'Communication.EmailAddressType',
+                type : #work,
+                address : email,
+            },
+        ],
+        adr : [
+            {
+                $Type : 'Communication.AddressType',
+                type : #work,
+                country : originPlanet,
+            },
+        ],
+    },
+    UI.DataPoint #wormholeNavigationSkill1 : {
+        Value : wormholeNavigationSkill,
+        TargetValue : position.skillBoundary_max,
+    },
+    UI.Chart #wormholeNavigationSkill : {
+        ChartType : #Donut,
+        Measures : [
+            wormholeNavigationSkill,
+        ],
+        MeasureAttributes : [
+            {
+                DataPoint : '@UI.DataPoint#wormholeNavigationSkill1',
+                Role : #Axis1,
+                Measure : wormholeNavigationSkill,
+            },
+        ],
+    },
+    UI.DataPoint #stardustCollection : {
+        Value : stardustCollection,
+        TargetValue : 100,
+    },
+    UI.Chart #stardustCollection : {
+        ChartType : #Donut,
+        Measures : [
+            stardustCollection,
+        ],
+        MeasureAttributes : [
+            {
+                DataPoint : '@UI.DataPoint#stardustCollection',
+                Role : #Axis1,
+                Measure : stardustCollection,
+            },
+        ],
+    },
 );
 
 annotate service.SpaceFarer with {

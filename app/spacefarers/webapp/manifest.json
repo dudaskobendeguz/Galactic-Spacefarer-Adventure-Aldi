@@ -116,12 +116,16 @@
                     "type": "ResponsiveTable"
                   },
                   "columns": {
-                    "DataField::wormholeNavigationSkill": {
-                      "width": "auto"
+                    "DataFieldForAnnotation::DataPoint::wormholeNavigationSkill": {
+                      "widthIncludingColumnHeader": true
+                    },
+                    "DataField::spacesuitColor": {
+                      "widthIncludingColumnHeader": true
                     }
                   }
                 }
-              }
+              },
+              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#tableView"
             }
           }
         },
