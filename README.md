@@ -54,7 +54,7 @@ npm test
 
 Service path: `/spacefarer-service`
 
-In `srv/space-farer-service.cds`:
+In `srv/spacefarer-service.cds`:
 
 - Service level: `@requires: 'authenticated-user'`
 - `SpaceFarer` projection: restricted with `@restrict`
@@ -131,6 +131,35 @@ Current test organization:
 - Position Entity (`@readonly` behavior)
 
 The suite verifies authenticated access, role-based behavior, and entity-level write restrictions.
+
+## Task 3 - Cosmic Event Handlers
+
+Task 3 is implemented in `srv/spacefarer-service.ts` using CAP lifecycle hooks on `CREATE` for `SpaceFarer`.
+
+### CREATE Parameters -> Generated Values
+
+When `POST /spacefarer-service/SpaceFarer` is called, Task 3 logic produces these outcomes:
+
+| Create payload parameter | Rule in Task 3 logic | What is generated or changed by server | Result if rule fails |
+|---|---|---|---|
+| `wormholeNavigationSkill` | Must exist and be in range `0..100` | Used to find matching `Position` (`skillBoundary_min <= value <= skillBoundary_max`) and set `position_ID` | Request rejected (`400` or `422`), no create |
+| `stardustCollection` | Must exist and be in range `0..100` | Used to find matching `SpacesuitColorBoundary` (`stardustCollection_min <= value <= stardustCollection_max`) and set `spacesuitColor` | Request rejected (`400` or `422`), no create |
+| `position_ID` (if sent by client) | Treated as non-authoritative for Task 3 create | Overwritten by computed value from `Position` boundary lookup | N/A (server value wins) |
+| `spacesuitColor` (if sent by client) | Treated as non-authoritative for Task 3 create | Overwritten by computed value from `SpacesuitColorBoundary` lookup | N/A (server value wins) |
+| `department.name` | Required by data model (`department` composition is mandatory and `name` is mandatory) | Department child record is persisted together with parent SpaceFarer create | Request rejected by CAP model validation if missing/invalid |
+| `email` | Required to send post-create notification | Used as notification recipient (`to`) in `@After CREATE` | Create still succeeds; notification is skipped if missing |
+| `firstName`, `lastName`, `originPlanet`, computed `position_ID`, computed `spacesuitColor`, skill/stardust | Used to compose welcome message body | Welcome email payload (`subject`, `body`) sent via `notificationService` event `notifyOnboarder` | If send fails, error is logged; create is not rolled back |
+
+Notification implementation by environment:
+
+- `development` and `test`: `srv/notification-mock-service.ts`
+- `production`: `srv/notification-production-service.ts`
+
+Task 3 tests in `test/space-farer-service.test.ts` verify:
+
+- Auto-enhancement of candidate data at create time
+- Rejection for out-of-range skill and stardust values
+- Notification trigger after successful candidate creation
 
 ## CI (GitHub Actions)
 
