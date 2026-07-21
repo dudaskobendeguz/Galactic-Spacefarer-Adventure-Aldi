@@ -62,14 +62,14 @@ DELETE {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}')
 ### ==========================================================
 ### SPACEFARER ENTITY - VIEWER ROLE
 ### Service requires authenticated-user and entity requires SpacefarerViewer
-### with where originPlanet = $user.attr.planet (Mars for viewer)
+### with where originPlanet = $user.attr.planet (Io Relay for viewer)
 ### ==========================================================
 
 ### Viewer: READ list
 GET {{baseUrl}}/SpaceFarer
 Authorization: {{viewerAuth}}
 
-### Viewer: CREATE own Mars record (expect 201)
+### Viewer: CREATE own Io Relay record (expect 201)
 ### Note: position_ID and spacesuitColor are auto-assigned based on wormholeNavigationSkill and stardustCollection
 POST {{baseUrl}}/SpaceFarer
 Content-Type: application/json
@@ -79,10 +79,10 @@ Authorization: {{viewerAuth}}
   "ID": "{{viewerOwnedId}}",
   "firstName": "Local",
   "lastName": "Tester",
-  "email": "local.tester.mars@example.com",
+  "email": "local.tester.iorelay@example.com",
   "stardustCollection": 42.5,
   "wormholeNavigationSkill": 75,
-  "originPlanet": "Mars",
+  "originPlanet": "Io Relay",
   "department": {
     "name": "Exploration"
   }
