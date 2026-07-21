@@ -21,19 +21,32 @@ File or Folder | Purpose
 npm install
 ```
 
-2. Start secure local development (mocked auth enabled):
+> **Important:** `npm install` automatically runs a `postinstall` script that deletes a bundled duplicate of `@sap/cds` shipped inside `@sap/cds-dk`. Without this, CAP prints an error about `@sap/cds` being loaded from two locations and the dev server may fail. See [Known Issue](#known-issue-sap-cds-loaded-from-different-locations) for full details.
+
+2. Deploy the local database (one-time setup):
+
+```bash
+cds deploy --to sqlite
+```
+
+This creates the `db.sqlite` file and populates it with CSV seed data. You only need to run this once, or when you:
+- Change the CDS schema
+- Want to reset data back to the CSV files
+- Delete the `db.sqlite` file
+
+3. Start secure local development (mocked auth enabled):
 
 ```bash
 npm run dev
 ```
 
-3. Alternative profile for managed-company browsers (dummy auth):
+4. Alternative profile for managed-company browsers (dummy auth):
 
 ```bash
 npm run dev:company
 ```
 
-4. Run automated tests:
+5. Run automated tests:
 
 ```bash
 npm run test:cap
@@ -207,13 +220,38 @@ Because the browser prompt is blocked by policy, authentication and authorizatio
 
 To continue local UI development despite this environment constraint, an additional local profile `development-company` (`auth.kind = dummy`) is provided. Security validation is still performed with the secure `development` profile (`auth.kind = mocked`).
 
-## CAP Runtime Note (`exit_on_multi_install`)
+## Known Issue: `@sap/cds` loaded from different locations
 
-The project sets `cds.server.exit_on_multi_install = false` in `package.json` to avoid local dev server termination when `@sap/cds` is detected from multiple installation paths during `cds watch` with UI tooling integration.
+When running `npm run dev` or `npm run dev:company`, you may see this error in the console:
 
-Why this exists: starting with the CAP change documented in May 2025, `cds-serve` fails by default if multiple `@sap/cds` installation paths are detected to prevent inconsistent runtime state.
+```
+-----------------------------------------------------------------------
+ERROR: @sap/cds was loaded from different locations:
 
-Reference: https://cap.cloud.sap/docs/releases/2025/changelog#may-25-changed
+  ~/...node_modules/@sap/cds
+  ~/...node_modules/@sap/cds-dk/node_modules/@sap/cds
+
+Ensure a single install to avoid hard-to-resolve errors.
+-----------------------------------------------------------------------
+```
+
+**Root cause:** `@sap/cds-dk@10.0.4` uses `bundleDependencies` — it physically ships `@sap/cds@10.0.3` inside its own npm tarball. When `npm install` runs, this bundled copy is always unpacked to `node_modules/@sap/cds-dk/node_modules/@sap/cds`, regardless of what version is installed at the root. This means two copies of `@sap/cds` end up at different file paths, and Node.js loads them as two separate module instances. CAP detects this and prints the error.
+
+**Why npm `overrides` doesn't fix it:** The npm `overrides` field cannot touch `bundleDependencies` — those are baked into the tarball and always unpacked as-is.
+
+**Why downgrading `@sap/cds` doesn't fix it:** The conflict is about file paths, not version numbers. Even if both copies are the same version, they are still two separate module instances at different paths.
+
+**The fix applied in this project:** A `postinstall` script in `package.json` deletes the bundled nested copy after every `npm install`:
+
+```json
+"postinstall": "rm -rf node_modules/@sap/cds-dk/node_modules/@sap/cds"
+```
+
+This forces `@sap/cds-dk` to use the single root-level `@sap/cds`, eliminating the conflict. The script runs automatically — no manual steps needed.
+
+**When this can be removed:** Once SAP releases a version of `@sap/cds-dk` that bundles `@sap/cds@10.0.4` (or stops using `bundleDependencies`), the `postinstall` script can be deleted.
+
+The project also sets `cds.server.exit_on_multi_install = false` in `package.json` as an additional safety net so the dev server does not crash if the duplicate is somehow detected despite the postinstall cleanup.
 
 ## References
 
