@@ -29,7 +29,7 @@ npm install
 2. Deploy the local database (one-time setup):
 
 ```bash
-cds deploy --to sqlite
+npm run deploy:db
 ```
 
 This creates the `db.sqlite` file and populates it with CSV seed data. You only need to run this once, or when you:

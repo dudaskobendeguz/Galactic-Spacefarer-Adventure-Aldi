@@ -62,14 +62,14 @@ DELETE {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}')
 ### ==========================================================
 ### SPACEFARER ENTITY - VIEWER ROLE
 ### Service requires authenticated-user and entity requires SpacefarerViewer
-### with where originPlanet = $user.attr.planet (Mars for viewer)
+### with where originPlanet = $user.planet (Io Relay for viewer)
 ### ==========================================================
 
 ### Viewer: READ list
 GET {{baseUrl}}/SpaceFarer
 Authorization: {{viewerAuth}}
 
-### Viewer: CREATE own Mars record (expect 201)
+### Viewer: CREATE own Io Relay record (expect 201)
 ### Note: position_ID and spacesuitColor are auto-assigned based on wormholeNavigationSkill and stardustCollection
 POST {{baseUrl}}/SpaceFarer
 Content-Type: application/json
@@ -79,21 +79,21 @@ Authorization: {{viewerAuth}}
   "ID": "{{viewerOwnedId}}",
   "firstName": "Local",
   "lastName": "Tester",
-  "email": "local.tester.mars@example.com",
+  "email": "local.tester.iorelay@example.com",
   "stardustCollection": 42.5,
   "wormholeNavigationSkill": 75,
-  "originPlanet": "Mars",
+  "originPlanet": "Io Relay",
   "department": {
     "name": "Exploration"
   }
 }
 
-### Viewer: READ created record (expect 200)
-GET {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}')
+### Viewer: READ created draft record (expect 200)
+GET {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}',IsActiveEntity=false)
 Authorization: {{viewerAuth}}
 
-### Viewer: UPDATE created record (expect 200/204)
-PATCH {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}')
+### Viewer: UPDATE created draft record (expect 200/204)
+PATCH {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}',IsActiveEntity=false)
 Content-Type: application/json
 Authorization: {{viewerAuth}}
 
@@ -102,7 +102,15 @@ Authorization: {{viewerAuth}}
   "stardustCollection": 55.5
 }
 
-### Viewer: DELETE created record (expect 200/204)
+### Viewer: ACTIVATE draft (expect 201)
+POST {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}',IsActiveEntity=false)/SpaceFarerService.draftActivate
+Authorization: {{viewerAuth}}
+
+### Viewer: READ active record after activation (expect 200)
+GET {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}')
+Authorization: {{viewerAuth}}
+
+### Viewer: DELETE active record (expect 200/204)
 DELETE {{baseUrl}}/SpaceFarer(ID='{{viewerOwnedId}}')
 Authorization: {{viewerAuth}}
 

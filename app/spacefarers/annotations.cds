@@ -13,11 +13,11 @@ annotate service.SpaceFarer with @(
             Label : 'Last Name',
             Value : lastName,
         },
-        {
-            $Type : 'UI.DataFieldForAnnotation',
-            Target : '@Communication.Contact#contact',
-            Label : 'Contact',
-        },
+            {
+                $Type : 'UI.DataField',
+                Value : email,
+                Label : 'Contact',
+            },
         {
             $Type : 'UI.DataField',
             Value : originPlanet,

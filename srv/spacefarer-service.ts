@@ -26,7 +26,7 @@ type SpaceFarerCreateBody =
 
 type SpaceFarerCreateRequest = cds.Request<SpaceFarerCreateBody>
 
-type SpaceFarerUpdateBody = Partial<Pick<SpaceFarerCreateBody, 'wormholeNavigationSkill' | 'stardustCollection' | 'position_ID' | 'spacesuitColor'>> & {
+type SpaceFarerUpdateBody = Partial<Pick<SpaceFarerCreateBody, 'wormholeNavigationSkill' | 'stardustCollection' | 'position_ID' | 'spacesuitColor' | 'email'>> & {
     ID: NonNullable<SpaceFarerRow['ID']>;
 }
 
@@ -65,6 +65,7 @@ class SpacefarerService extends cds.ApplicationService {
         this.before('CREATE', SpaceFarer, async (req: SpaceFarerCreateRequest): Promise<void> => {
             const data: SpaceFarerCreateBody = req.data;
             this.#logger.debug('Before CREATE SpaceFarer', { data });
+            data.email = this.validateEmail(data.email);
             const { wormholeNavigationSkill, stardustCollection } = data;
             // Find the position that matches the spacefarer's wormholeNavigationSkill
             const matchingPosition: Position | null = await this._getPositionBySkill(req, wormholeNavigationSkill);
@@ -92,7 +93,11 @@ class SpacefarerService extends cds.ApplicationService {
         this.before('UPDATE', SpaceFarer, async (req: SpaceFarerUpdateRequest): Promise<void> => {
             const data: SpaceFarerUpdateBody = req.data;
             this.#logger.debug('Before UPDATE SpaceFarer', { data });
-            const { wormholeNavigationSkill, stardustCollection, spacesuitColor, position_ID } = data;
+            const { wormholeNavigationSkill, stardustCollection, spacesuitColor, position_ID, email } = data;
+
+            if (email !== undefined) {
+                data.email = this.validateEmail(email);
+            }
 
             if (position_ID !== undefined && wormholeNavigationSkill === undefined) {
                 throw cds.error(400, 'position is derived from wormholeNavigationSkill and cannot be updated directly');
@@ -208,6 +213,21 @@ class SpacefarerService extends cds.ApplicationService {
             throw cds.error(422, 'wormholeNavigationSkill must be between 0 and 100');
         }
         return wormholeNavigationSkill;
+    }
+
+    private validateEmail(email: string | null | undefined): string {
+        if (!email) {
+            throw cds.error(400, 'email is required');
+        }
+
+        const normalizedEmail = email.trim();
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(normalizedEmail)) {
+            throw cds.error(422, 'Invalid email address format');
+        }
+
+        return normalizedEmail;
     }
 
     private async _getMatchingColorBoundary(req: SpaceFarerCreateRequest | SpaceFarerUpdateRequest, stardustCollection: number | null | undefined): Promise<SpacesuitColorBoundary | null> {
