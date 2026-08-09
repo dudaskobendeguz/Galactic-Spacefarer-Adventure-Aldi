@@ -124,7 +124,7 @@
                       "widthIncludingColumnHeader": true
                     },
                     "SpaceSuitColor": {
-                      "header": "{i18n>labelSpaceSuitDerived}",
+                      "header": "Spacesuit (Auto-derived)",
                       "position": {
                         "placement": "After",
                         "anchor": "DataFieldForAnnotation::Chart::stardustCollection"
@@ -156,7 +156,7 @@
                         "placement": "After",
                         "anchor": "DataField::stardustCollection"
                       },
-                      "label": "{i18n>labelSpaceSuitDerived}"
+                      "label": "Spacesuit (Auto-derived)"
                     }
                   }
                 }

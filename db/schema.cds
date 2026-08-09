@@ -11,9 +11,9 @@ namespace galactic.spacefarer.adventure;
 // [cuid](https://cap.cloud.sap/docs/cds/common#aspect-cuid) -> shrtcut to UUID
 define entity SpaceFarer : cuid, managed {
     // Personal information
-    firstName               : String(50)     @mandatory  @assert.pattern: '^[A-Za-z]+$'; // Only letters allowed
-    lastName                : String(50)     @mandatory  @assert.pattern: '^[A-Za-z]+$'; // Only letters allowed
-    email                   : String(255)    @mandatory  @assert.pattern: '^[^\s@]+@[^\s@]+\.[^\s@]+$'; // Basic email regex validation
+    firstName               : String(50)     @mandatory  @assert.format: '^[A-Za-z0-9-]+$' @assert.format.message: '{i18n>SPACEFARER_FIRSTNAME_FORMAT}'; // Only letters, numbers, and hyphens allowed
+    lastName                : String(50)     @mandatory  @assert.format: '^[A-Za-z0-9-]+$' @assert.format.message: '{i18n>SPACEFARER_LASTNAME_FORMAT}'; // Only letters, numbers, and hyphens allowed
+    email                   : String(255)    @mandatory  @assert.format: '^[^\s@]+@[^\s@]+\.[^\s@]+$' @assert.format.message: '{i18n>SPACEFARER_EMAIL_FORMAT_MODEL}'; // Basic email regex validation
 
     // Cosmic fields (Task 1 requirements)
     stardustCollection      : Decimal(10, 2) @assert.range: [(0), 100] default 0.0; // Stardust collection in decimal format with a range constraint
@@ -23,20 +23,21 @@ define entity SpaceFarer : cuid, managed {
     spacesuitColor          : SpacesuitColor; // e.g. "Nebula Blue"
 
     // Associations to intergalactic departments and positions
-    // [composition](https://cap.cloud.sap/docs/cds/common#composition) -> defines a strong ownership relationship between entities - if a SpaceFarer is deleted, the associated Department will also be deleted
-    department              : Composition of Department on department.spaceFarer = $self @mandatory; // Each SpaceFarer must belong to one Department
+    department_ID           : UUID           @mandatory @assert.mandatory.message: '{i18n>SPACEFARER_DEPARTMENT_MANDATORY}';
+    // [association](https://cap.cloud.sap/docs/cds/common#association) -> SpaceFarer references an existing Department master record
+    department              : Association to Department on department.ID = $self.department_ID; // Each SpaceFarer must belong to one Department
+    position_ID             : UUID;
     // [association](https://cap.cloud.sap/docs/cds/common#association) -> defines a relationship between entities - if a SpaceFarer is deleted, the associated Position will not be deleted
-    position                : Association to Position; // Each SpaceFarer must hold one Position (auto-assigned based on wormholeNavigationSkill)
+    position                : Association to Position on position.ID = $self.position_ID; // Each SpaceFarer must hold one Position (auto-assigned based on wormholeNavigationSkill)
 }
 
 
 // ─────────────────────────────────────────────
 //  Spacefarer – Department Entity
 // ─────────────────────────────────────────────
-define entity Department : managed {
-    //[key](https://cap.cloud.sap/docs/guides/databases/cdl-to-ddl#on-delete-cascade) -> defines the primary key of the entity to delete the child entity when the parent entity is deleted
-    key spaceFarer: Association to one SpaceFarer; // Department is keyed by its owning SpaceFarer to enforce strict 1:1 (child) relationship
+define entity Department : cuid, managed {
     name          : String(30) @mandatory;
+    spaceFarers   : Association to many SpaceFarer on spaceFarers.department = $self;
 }
 
 // ─────────────────────────────────────────────
@@ -87,4 +88,4 @@ define type SpacesuitColor : String(30) enum {
 // ─────────────────────────────────────────────
 //  Spacefarer – Origin Planet Type Definition
 // ─────────────────────────────────────────────
-define type OriginPlanet   : String(20) @assert.pattern: '^[A-Za-z0-9- ]+$'; // Only letters, numbers, hyphens, and spaces allowed
+define type OriginPlanet   : String(20) @assert.format: '^[A-Za-z0-9- ]+$' @assert.format.message: '{i18n>SPACEFARER_ORIGIN_PLANET_FORMAT}'; // Only letters, numbers, hyphens, and spaces allowed

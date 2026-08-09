@@ -9,17 +9,13 @@ const { GET, POST, PATCH, DELETE, expect } = cds.test('.')
 
 const SERVICE_PATH = '/spacefarer-service' as const
 const EXISTING_POSITION_ID = '20000000-0000-4000-8000-000000000001' as const
-const EXISTING_DEPARTMENT_OWNER_ID = '10000000-0000-4000-8000-000000000014' as const
+const EXISTING_DEPARTMENT_ID = '31000000-0000-4000-8000-000000000001' as const
 
 const VIEWER_AUTH = `Basic ${Buffer.from('space-viewer:viewer123').toString('base64')}`
 const ADMIN_AUTH = `Basic ${Buffer.from('space-admin:admin123').toString('base64')}`
 
 type HttpError = {
   status?: number
-}
-
-type DepartmentPayload = {
-  name: string
 }
 
 type SpaceFarerPayload = {
@@ -32,7 +28,7 @@ type SpaceFarerPayload = {
   originPlanet: string
   spacesuitColor: string
   position_ID: string
-  department: DepartmentPayload
+  department_ID: string
 }
 
 const escapeODataString = (value: string): string => value.replace(/'/g, "''")
@@ -115,9 +111,7 @@ const createCandidatePayload = (
   originPlanet,
   spacesuitColor: 'Cosmic Red',
   position_ID: EXISTING_POSITION_ID,
-  department: {
-    name: `Task3 Dept ${suffix}`
-  },
+  department_ID: EXISTING_DEPARTMENT_ID,
   ...overrides
 })
 
@@ -140,9 +134,7 @@ const createSpaceFarer = async (
     originPlanet,
     spacesuitColor: 'Nebula Blue',
     position_ID: EXISTING_POSITION_ID,
-    department: {
-      name: `Dept ${suffix}`
-    },
+    department_ID: EXISTING_DEPARTMENT_ID,
     ...overrides
   }
 
@@ -223,7 +215,7 @@ describe('SpaceFarer Entity', () => {
           originPlanet: viewerPlanet(),
           spacesuitColor: 'Cosmic Red',
           position_ID: EXISTING_POSITION_ID,
-          department: { name: 'Viewer Dept' }
+          department_ID: EXISTING_DEPARTMENT_ID
         },
         VIEWER_AUTH
       )
@@ -291,7 +283,7 @@ describe('SpaceFarer Entity', () => {
         originPlanet: 'Orion Belt',
         spacesuitColor: 'Cosmic Red',
         position_ID: EXISTING_POSITION_ID,
-        department: { name: 'Admin Dept' }
+        department_ID: EXISTING_DEPARTMENT_ID
       },
       ADMIN_AUTH
     )
@@ -341,7 +333,7 @@ describe('Department Entity (@readonly)', () => {
   })
 
   it('denies viewer from updating Department', async () => {
-    const departmentUrl = entityUrl('Department', 'spaceFarer_ID', EXISTING_DEPARTMENT_OWNER_ID)
+    const departmentUrl = entityUrl('Department', 'ID', EXISTING_DEPARTMENT_ID)
     try {
       const response = await patchAs(departmentUrl, { name: 'Dept Updated' }, VIEWER_AUTH)
       // @readonly means modifications should return 4xx error (403, 404, or 422 for unprocessable)
@@ -353,7 +345,7 @@ describe('Department Entity (@readonly)', () => {
   })
 
   it('denies viewer from deleting Department', async () => {
-    const departmentUrl = entityUrl('Department', 'spaceFarer_ID', EXISTING_DEPARTMENT_OWNER_ID)
+    const departmentUrl = entityUrl('Department', 'ID', EXISTING_DEPARTMENT_ID)
     let status: number | undefined
 
     try {
@@ -371,7 +363,7 @@ describe('Department Entity (@readonly)', () => {
     try {
       const response = await postAs(
         `${SERVICE_PATH}/Department`,
-        { spaceFarer_ID: EXISTING_DEPARTMENT_OWNER_ID, name: 'Dept Recreated' },
+        { ID: randomUUID(), name: 'Dept Recreated' },
         VIEWER_AUTH
       )
       expect([401, 403, 404, 405, 422]).to.include(response.status)

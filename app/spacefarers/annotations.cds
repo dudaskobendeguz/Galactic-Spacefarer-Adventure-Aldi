@@ -23,11 +23,6 @@ annotate service.SpaceFarer with @(
             Value : originPlanet,
             Label : '{i18n>labelPlanet}',
         },
-            {
-                $Type : 'UI.DataField',
-                Value : department.name,
-                Label : '{i18n>LabelDepartment}',
-            },
         {
             $Type : 'UI.DataField',
             Value : position.title,
@@ -52,6 +47,12 @@ annotate service.SpaceFarer with @(
             ID : 'GeneratedFacet1',
             Label : '{i18n>labelGeneralInformation}',
             Target : '@UI.FieldGroup#GeneratedGroup',
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : 'Department',
+            ID : 'Department',
+            Target : '@UI.FieldGroup#Department',
         },
     ],
     UI.LineItem : [
@@ -101,6 +102,7 @@ annotate service.SpaceFarer with @(
         firstName,
         lastName,
         position.title,
+        department.name,
     ],
     UI.SelectionPresentationVariant #tableView : {
         $Type : 'UI.SelectionPresentationVariantType',
@@ -211,6 +213,16 @@ annotate service.SpaceFarer with @(
             },
         ],
     },
+    UI.FieldGroup #Department : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : department_ID,
+                Label : '{i18n>labelDepartmentName}',
+            },
+        ],
+    },
 );
 
 annotate service.SpaceFarer with {
@@ -274,5 +286,39 @@ annotate service.SpaceFarer with {
     lastName @(
         Common.Label : '{i18n>labelLastName}',
         )
+};
+
+annotate service.SpaceFarer with {
+    department_ID @(
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'Department',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : department_ID,
+                    ValueListProperty : 'ID',
+                },
+            ],
+        },
+        Common.ValueListWithFixedValues : true,
+)};
+
+annotate service.Department with {
+    name @(
+        Common.Label : '{i18n>labelDepartmentName}',
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'Department',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : name,
+                    ValueListProperty : 'name',
+                },
+            ],
+        },
+        Common.ValueListWithFixedValues : true,
+    )
 };
 

@@ -6,7 +6,8 @@
 // Regenerate with: printf 'username:password' | base64
 @viewerOwnedId = 30000000-0000-4000-8000-00000000aa01
 @existingPositionId = 20000000-0000-4000-8000-000000000001
-@existingDepartmentOwnerId = 30000000-0000-4000-8000-000000000001
+@existingSpaceFarerId = 10000000-0000-4000-8000-000000000001
+@existingDepartmentId = 30000000-0000-4000-8000-000000000001
 
 ### ==========================================================
 ### AUTH SCENARIOS (service root)
@@ -42,9 +43,7 @@ Content-Type: application/json
   "stardustCollection": 42.5,
   "wormholeNavigationSkill": 77,
   "originPlanet": "Mars",
-  "department": {
-    "name": "Exploration"
-  }
+  "department_ID": "{{existingDepartmentId}}"
 }
 
 ### Unauthenticated: UPDATE
@@ -83,9 +82,7 @@ Authorization: {{viewerAuth}}
   "stardustCollection": 42.5,
   "wormholeNavigationSkill": 75,
   "originPlanet": "Io Relay",
-  "department": {
-    "name": "Exploration"
-  }
+  "department_ID": "{{existingDepartmentId}}"
 }
 
 ### Viewer: READ created draft record (expect 200)
@@ -141,7 +138,7 @@ Authorization: {{adminAuth}}
 }
 
 ### Admin: UPDATE (expect forbidden)
-PATCH {{baseUrl}}/SpaceFarer(ID='{{existingDepartmentOwnerId}}')
+PATCH {{baseUrl}}/SpaceFarer(ID='{{existingSpaceFarerId}}')
 Content-Type: application/json
 Authorization: {{adminAuth}}
 
@@ -150,7 +147,7 @@ Authorization: {{adminAuth}}
 }
 
 ### Admin: DELETE (expect forbidden)
-DELETE {{baseUrl}}/SpaceFarer(ID='{{existingDepartmentOwnerId}}')
+DELETE {{baseUrl}}/SpaceFarer(ID='{{existingSpaceFarerId}}')
 Authorization: {{adminAuth}}
 
 ### ==========================================================
@@ -167,12 +164,12 @@ Content-Type: application/json
 Authorization: {{viewerAuth}}
 
 {
-  "spaceFarer_ID": "{{existingDepartmentOwnerId}}",
+  "ID": "{{existingDepartmentId}}",
   "name": "Should Fail"
 }
 
 ### Viewer: UPDATE Department (expect forbidden/read-only)
-PATCH {{baseUrl}}/Department(spaceFarer_ID='{{existingDepartmentOwnerId}}')
+PATCH {{baseUrl}}/Department(ID='{{existingDepartmentId}}')
 Content-Type: application/json
 Authorization: {{viewerAuth}}
 
@@ -181,7 +178,7 @@ Authorization: {{viewerAuth}}
 }
 
 ### Viewer: DELETE Department (expect forbidden/read-only)
-DELETE {{baseUrl}}/Department(spaceFarer_ID='{{existingDepartmentOwnerId}}')
+DELETE {{baseUrl}}/Department(ID='{{existingDepartmentId}}')
 Authorization: {{viewerAuth}}
 
 ### Admin: READ Department list (expect 200)
@@ -194,7 +191,7 @@ Content-Type: application/json
 Authorization: {{adminAuth}}
 
 {
-  "spaceFarer_ID": "{{existingDepartmentOwnerId}}",
+  "ID": "{{existingDepartmentId}}",
   "name": "Admin Should Fail"
 }
 
