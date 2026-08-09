@@ -124,7 +124,7 @@
                       "widthIncludingColumnHeader": true
                     },
                     "SpaceSuitColor": {
-                      "header": "Spacesuit",
+                      "header": "{i18n>labelSpaceSuit}",
                       "position": {
                         "placement": "After",
                         "anchor": "DataFieldForAnnotation::Chart::stardustCollection"
@@ -156,7 +156,7 @@
                         "placement": "After",
                         "anchor": "DataField::stardustCollection"
                       },
-                      "label": "Space Suit"
+                      "label": "{i18n>labelSpaceSuit}"
                     }
                   }
                 }

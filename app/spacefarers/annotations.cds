@@ -5,39 +5,39 @@ annotate service.SpaceFarer with @(
         Data : [
         {
             $Type : 'UI.DataField',
-            Label : 'First Name',
+            Label : '{i18n>labelFirstName}',
             Value : firstName,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'Last Name',
+            Label : '{i18n>labelLastName}',
             Value : lastName,
         },
             {
                 $Type : 'UI.DataField',
                 Value : email,
-                Label : 'Contact',
+                Label : '{i18n>labelContact}',
             },
         {
             $Type : 'UI.DataField',
             Value : originPlanet,
-            Label : 'Planet',
+            Label : '{i18n>labelPlanet}',
         },
         {
             $Type : 'UI.DataField',
             Value : position.title,
-            Label : 'Title',
+            Label : '{i18n>labelTitle}',
             @UI.Importance : #High,
         },
             {
                 $Type : 'UI.DataField',
                 Value : wormholeNavigationSkill,
-                Label : 'Wormhole Navigation Skill',
+                Label : '{i18n>labelWormholeNavigationSkill}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : stardustCollection,
-                Label : 'Stardust Collection',
+                Label : '{i18n>labelStardustCollection}',
             },
     ],
     },
@@ -45,7 +45,7 @@ annotate service.SpaceFarer with @(
         {
             $Type : 'UI.ReferenceFacet',
             ID : 'GeneratedFacet1',
-            Label : 'General Information',
+            Label : '{i18n>labelGeneralInformation}',
             Target : '@UI.FieldGroup#GeneratedGroup',
         },
     ],
@@ -53,38 +53,38 @@ annotate service.SpaceFarer with @(
         {
             $Type : 'UI.DataField',
             Value : position.title,
-            Label : 'Title',
+            Label : '{i18n>labelTitle}',
             @UI.Importance : #High,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'First Name',
+            Label : '{i18n>labelFirstName}',
             Value : firstName,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'Last Name',
+            Label : '{i18n>labelLastName}',
             Value : lastName,
         },
         {
             $Type : 'UI.DataFieldForAnnotation',
             Target : '@Communication.Contact#contact',
-            Label : 'Contact',
+            Label : '{i18n>labelContact}',
         },
         {
             $Type : 'UI.DataField',
             Value : originPlanet,
-            Label : 'Planet',
+            Label : '{i18n>labelPlanet}',
         },
         {
             $Type : 'UI.DataFieldForAnnotation',
             Target : '@UI.DataPoint#wormholeNavigationSkill',
-            Label : 'Wormhole Navigation Skill',
+            Label : '{i18n>labelWormholeNavigationSkill}',
         },
         {
             $Type : 'UI.DataFieldForAnnotation',
             Target : '@UI.Chart#stardustCollection',
-            Label : 'Stardust Collection',
+            Label : '{i18n>labelStardustCollection}',
         },
     ],
     UI.SelectionFields : [
@@ -122,25 +122,10 @@ annotate service.SpaceFarer with @(
             SelectOptions : [
             ],
         },
-        Text : 'Table View',
+        Text : '{i18n>textTableView}',
     },
     UI.LineItem #tableView : [
     ],
-    UI.SelectionPresentationVariant #tableView1 : {
-        $Type : 'UI.SelectionPresentationVariantType',
-        PresentationVariant : {
-            $Type : 'UI.PresentationVariantType',
-            Visualizations : [
-                '@UI.LineItem#tableView',
-            ],
-        },
-        SelectionVariant : {
-            $Type : 'UI.SelectionVariantType',
-            SelectOptions : [
-            ],
-        },
-        Text : 'Table View 1',
-    },
     UI.DataPoint #wormholeNavigationSkill : {
         Value : wormholeNavigationSkill,
         Visualization : #Progress,
@@ -207,12 +192,12 @@ annotate service.SpaceFarer with @(
             {
                 $Type : 'UI.DataField',
                 Value : wormholeNavigationSkill,
-                Label : 'Wormhole Navigation Skill',
+                Label : '{i18n>labelWormholeNavigationSkill}',
             },
             {
                 $Type : 'UI.DataField',
                 Value : stardustCollection,
-                Label : 'Stardust Collection',
+                Label : '{i18n>labelStardustCollection}',
             },
         ],
     },
@@ -220,13 +205,13 @@ annotate service.SpaceFarer with @(
 
 annotate service.SpaceFarer with {
     stardustCollection @(
-        Common.Label : 'Stardust Collection',
+        Common.Label : '{i18n>labelStardustCollection}',
         Validation.Minimum : 0,
         Validation.Maximum : 100,
     );
 
     wormholeNavigationSkill @(
-        Common.Label : 'Wormhole Navigation Skill',
+        Common.Label : '{i18n>labelWormholeNavigationSkill}',
         Validation.Minimum : 0,
         Validation.Maximum : 100,
     );
@@ -264,14 +249,14 @@ annotate service.SpaceFarer with {
 
 annotate service.SpaceFarer with {
     spacesuitColor @(
-        Common.Label : 'spacesuitColor',
+    Common.Label : '{i18n>labelSpacesuitColor}',
         Common.Text : lastName,
         )
 };
 
 annotate service.Position with {
     title @(
-        Common.Label : 'Title',
+        Common.Label : '{i18n>labelTitle}',
         Common.ValueList : {
             $Type : 'Common.ValueListType',
             CollectionPath : 'Position',
@@ -293,13 +278,13 @@ annotate service.SpaceFarer with {
 
 annotate service.SpaceFarer with {
     firstName @(
-        Common.Label : 'firstName',
+        Common.Label : '{i18n>labelFirstName}',
         )
 };
 
 annotate service.SpaceFarer with {
     lastName @(
-        Common.Label : 'lastName',
+        Common.Label : '{i18n>labelLastName}',
         )
 };
 
