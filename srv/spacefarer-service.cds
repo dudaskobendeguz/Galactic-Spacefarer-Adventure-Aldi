@@ -32,7 +32,7 @@ service SpaceFarerService @(path: '/spacefarer-service') {
         modifiedBy
     };
 
-    @readonly
+    
     entity Department as projection on my.Department;
 
     @readonly

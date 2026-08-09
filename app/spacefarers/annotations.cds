@@ -23,10 +23,15 @@ annotate service.SpaceFarer with @(
             Value : originPlanet,
             Label : '{i18n>labelPlanet}',
         },
+            {
+                $Type : 'UI.DataField',
+                Value : department.name,
+                Label : '{i18n>LabelDepartment}',
+            },
         {
             $Type : 'UI.DataField',
             Value : position.title,
-            Label : '{i18n>labelTitle}',
+            Label : '{i18n>labelTitleDerived}',
             @UI.Importance : #High,
         },
             {
@@ -53,7 +58,7 @@ annotate service.SpaceFarer with @(
         {
             $Type : 'UI.DataField',
             Value : position.title,
-            Label : '{i18n>labelTitle}',
+            Label : '{i18n>labelTitleDerived}',
             @UI.Importance : #High,
         },
         {
@@ -75,6 +80,11 @@ annotate service.SpaceFarer with @(
             $Type : 'UI.DataField',
             Value : originPlanet,
             Label : '{i18n>labelPlanet}',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : department.name,
+            Label : '{i18n>LabelDepartment}',
         },
         {
             $Type : 'UI.DataFieldForAnnotation',
@@ -219,29 +229,7 @@ annotate service.SpaceFarer with {
 
 annotate service.SpaceFarer with {
     position @(
-        Common.ValueList : {
-            $Type : 'Common.ValueListType',
-            CollectionPath : 'Position',
-            Parameters : [
-                {
-                    $Type : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : position_ID,
-                    ValueListProperty : 'ID',
-                },
-                {
-                    $Type : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'title',
-                },
-                {
-                    $Type : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'skillBoundary_min',
-                },
-                {
-                    $Type : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'skillBoundary_max',
-                },
-            ],
-        },
+        Common.FieldControl : #ReadOnly,
         Common.Text : position.title,
         Common.Text.@UI.TextArrangement : #TextOnly,
     )
@@ -249,8 +237,8 @@ annotate service.SpaceFarer with {
 
 annotate service.SpaceFarer with {
     spacesuitColor @(
-    Common.Label : '{i18n>labelSpacesuitColor}',
-        Common.Text : lastName,
+        Common.Label : '{i18n>labelSpacesuitColorDerived}',
+        Common.FieldControl : #ReadOnly,
         )
 };
 
