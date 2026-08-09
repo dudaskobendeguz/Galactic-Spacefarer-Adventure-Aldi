@@ -88,6 +88,8 @@ annotate service.SpaceFarer with @(
         },
     ],
     UI.SelectionFields : [
+        firstName,
+        lastName,
         position.title,
     ],
     UI.SelectionPresentationVariant #tableView : {
@@ -105,17 +107,14 @@ annotate service.SpaceFarer with @(
                 },
                 {
                     $Type : 'Common.SortOrderType',
-                    Property : lastName,
+                    Property : firstName,
                     Descending : false,
                 },
                 {
                     $Type : 'Common.SortOrderType',
-                    Property : originPlanet,
+                    Property : lastName,
                     Descending : false,
                 },
-            ],
-            GroupBy : [
-                spacesuitColor,
             ],
         },
         SelectionVariant : {
@@ -234,29 +233,33 @@ annotate service.SpaceFarer with {
 };
 
 annotate service.SpaceFarer with {
-    position @Common.ValueList : {
-        $Type : 'Common.ValueListType',
-        CollectionPath : 'Position',
-        Parameters : [
-            {
-                $Type : 'Common.ValueListParameterInOut',
-                LocalDataProperty : position_ID,
-                ValueListProperty : 'ID',
-            },
-            {
-                $Type : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'title',
-            },
-            {
-                $Type : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'skillBoundary_min',
-            },
-            {
-                $Type : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'skillBoundary_max',
-            },
-        ],
-    }
+    position @(
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'Position',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : position_ID,
+                    ValueListProperty : 'ID',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'title',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'skillBoundary_min',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'skillBoundary_max',
+                },
+            ],
+        },
+        Common.Text : position.title,
+        Common.Text.@UI.TextArrangement : #TextOnly,
+    )
 };
 
 annotate service.SpaceFarer with {
@@ -267,7 +270,21 @@ annotate service.SpaceFarer with {
 };
 
 annotate service.Position with {
-    title @Common.Label : 'position/title'
+    title @(
+        Common.Label : 'Title',
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'Position',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : title,
+                    ValueListProperty : 'title',
+                },
+            ],
+        },
+        Common.ValueListWithFixedValues : true,
+        )
 };
 
 annotate service.SpaceFarer with {
@@ -275,5 +292,14 @@ annotate service.SpaceFarer with {
 };
 
 annotate service.SpaceFarer with {
-    wormholeNavigationSkill @Measures.Unit : '/100'
+    firstName @(
+        Common.Label : 'firstName',
+        )
 };
+
+annotate service.SpaceFarer with {
+    lastName @(
+        Common.Label : 'lastName',
+        )
+};
+

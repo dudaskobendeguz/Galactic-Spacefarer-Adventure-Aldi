@@ -8,8 +8,8 @@ process.env.CDS_ENV = process.env.CDS_ENV ?? 'test'
 const { GET, POST, PATCH, DELETE, expect } = cds.test('.')
 
 const SERVICE_PATH = '/spacefarer-service' as const
-const EXISTING_POSITION_ID = '21000000-0000-4000-8000-000000000001' as const
-const EXISTING_DEPARTMENT_OWNER_ID = '31000000-0000-4000-8000-000000000001' as const
+const EXISTING_POSITION_ID = '20000000-0000-4000-8000-000000000001' as const
+const EXISTING_DEPARTMENT_OWNER_ID = '10000000-0000-4000-8000-000000000014' as const
 
 const VIEWER_AUTH = `Basic ${Buffer.from('space-viewer:viewer123').toString('base64')}`
 const ADMIN_AUTH = `Basic ${Buffer.from('space-admin:admin123').toString('base64')}`

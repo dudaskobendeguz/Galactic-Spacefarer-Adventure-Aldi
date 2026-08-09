@@ -36,6 +36,9 @@
   },
   "cds": {
     "[development]": {
+      "features": {
+        "test_data": false
+      },
       "requires": {
         "scheduling": false,
         "db": {
@@ -76,6 +79,9 @@
       }
     },
     "[development-company]": {
+      "features": {
+        "test_data": false
+      },
       "requires": {
         "scheduling": false,
         "db": {
