@@ -135,7 +135,11 @@
                   }
                 }
               },
-              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#tableView"
+              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#tableView",
+              "inlineEdit": {
+                "enabledFields": [],
+                "disabledFields": []
+              }
             }
           }
         },
