@@ -13,7 +13,7 @@ using {galactic.spacefarer.adventure as my} from '../db/schema.cds';
 service SpaceFarerService @(path: '/spacefarer-service') {
     @restrict: [
         {
-            grant: ['CREATE', 'READ', 'UPDATE', 'DELETE'],
+            grant: ['READ'],
             to   : 'SpacefarerViewer',
             where: [(originPlanet = $user.planet)]
         },

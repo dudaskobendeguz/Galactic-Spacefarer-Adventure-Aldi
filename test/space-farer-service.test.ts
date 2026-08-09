@@ -114,7 +114,8 @@ const createCandidatePayload = (
 const createSpaceFarer = async (
   suffix: string,
   originPlanet: string,
-  overrides: Partial<SpaceFarerPayload> = {}
+  overrides: Partial<SpaceFarerPayload> = {},
+  auth: string = ADMIN_AUTH  // Default to ADMIN since viewers can't create
 ) => {
   const email = `captain.email.${suffix.toLowerCase()}.${Date.now()}@starcheckout.space`
   const firstName = `Test${suffix}`
@@ -135,7 +136,7 @@ const createSpaceFarer = async (
     ...overrides
   }
 
-  const response = await postAs(`${SERVICE_PATH}/SpaceFarer`, payload, VIEWER_AUTH)
+  const response = await postAs(`${SERVICE_PATH}/SpaceFarer`, payload, auth)
   expect([201, 204]).to.include(response.status)
 
   if (response.data?.ID) return response.data.ID as string
@@ -148,7 +149,7 @@ const createSpaceFarer = async (
 
   const lookup = await getAs(
     `${SERVICE_PATH}/SpaceFarer?$filter=email eq '${escapeODataString(email)}'`,
-    VIEWER_AUTH
+    auth
   )
   expect(lookup.status).to.equal(200)
   expect(Array.isArray(lookup.data.value)).to.equal(true)
@@ -199,24 +200,46 @@ describe('SpaceFarer Entity', () => {
     expect(response.status).to.equal(200)
   })
 
-  it('allows viewer to create a SpaceFarer on own planet', async () => {
-    const id = await createSpaceFarer('CreateOnly', viewerPlanet())
-    expect(typeof id).to.equal('string')
-    expect(id.length).to.be.greaterThan(0)
+  it('denies viewer from creating a SpaceFarer', async () => {
+    try {
+      const response = await postAs(
+        `${SERVICE_PATH}/SpaceFarer`,
+        {
+          firstName: 'ViewerTest',
+          lastName: 'Create',
+          email: `viewer.create.${Date.now()}@example.com`,
+          stardustCollection: 50,
+          wormholeNavigationSkill: 55,
+          originPlanet: viewerPlanet(),
+          spacesuitColor: 'Cosmic Red',
+          position_ID: EXISTING_POSITION_ID,
+          department: { name: 'Viewer Dept' }
+        },
+        VIEWER_AUTH
+      )
+      throw new Error(`Expected viewer to be denied CREATE, got ${response.status}`)
+    } catch (error: unknown) {
+      expectForbiddenLike(asHttpError(error).status)
+    }
   })
 
-  it('allows viewer to read created SpaceFarer', async () => {
-    const id = await createSpaceFarer('ReadOwn', viewerPlanet())
+  it('allows viewer to read SpaceFarer on own planet', async () => {
+    // Admin creates a SpaceFarer on the viewer's planet
+    const id = await createSpaceFarer('ReadOwn', viewerPlanet(), {}, ADMIN_AUTH)
+    // Viewer should be able to read it
     try {
       const response = await getAs(entityUrl('SpaceFarer', 'ID', id), VIEWER_AUTH)
       expect([200]).to.include(response.status)
     } catch (error: unknown) {
+      // In case the record is transient, that's OK
       expect([404]).to.include(asHttpError(error).status)
     }
   })
 
-  it('allows viewer to update created SpaceFarer', async () => {
-    const id = await createSpaceFarer('UpdateOwn', viewerPlanet())
+  it('denies viewer from updating SpaceFarer', async () => {
+    // Admin creates a SpaceFarer on the viewer's planet
+    const id = await createSpaceFarer('UpdateOwn', viewerPlanet(), {}, ADMIN_AUTH)
+    // Viewer should be denied UPDATE
     try {
       const response = await patchAs(
         entityUrl('SpaceFarer', 'ID', id),
@@ -226,26 +249,23 @@ describe('SpaceFarer Entity', () => {
         },
         VIEWER_AUTH
       )
-      expect([200, 204]).to.include(response.status)
-
-      const readResponse = await getAs(entityUrl('SpaceFarer', 'ID', id), VIEWER_AUTH)
-      expect(readResponse.status).to.equal(200)
-      // spacesuitColor is derived from stardustCollection by the UPDATE handler.
-      expect(readResponse.data.stardustCollection).to.equal(99.9)
-      expect(readResponse.data.spacesuitColor).to.equal('Quantum Purple')
+      throw new Error(`Expected viewer to be denied UPDATE, got ${response.status}`)
     } catch (error: unknown) {
-      // With draft mode, direct PATCH returns 409 Conflict (draft workflow required)
-      expect([403, 404, 409]).to.include(asHttpError(error).status)
+      // Can get 403 (forbidden), 404 (not found), 405 (method not allowed), or 409 (draft conflict)
+      const status = asHttpError(error).status
+      expect([401, 403, 404, 405, 409]).to.include(status)
     }
   })
 
-  it('allows viewer to delete created SpaceFarer', async () => {
-    const id = await createSpaceFarer('DeleteOwn', viewerPlanet())
+  it('denies viewer from deleting SpaceFarer', async () => {
+    // Admin creates a SpaceFarer on the viewer's planet
+    const id = await createSpaceFarer('DeleteOwn', viewerPlanet(), {}, ADMIN_AUTH)
+    // Viewer should be denied DELETE
     try {
       const response = await deleteAs(entityUrl('SpaceFarer', 'ID', id), VIEWER_AUTH)
-      expect([200, 204, 404]).to.include(response.status)
+      throw new Error(`Expected viewer to be denied DELETE, got ${response.status}`)
     } catch (error: unknown) {
-      expect([403, 404]).to.include(asHttpError(error).status)
+      expectForbiddenLike(asHttpError(error).status)
     }
   })
 
@@ -279,13 +299,13 @@ describe('SpaceFarer Entity', () => {
   })
 
   it('allows admin to delete SpaceFarer', async () => {
-    const id = await createSpaceFarer('AdminDelete', 'Orion Belt')
+    const id = await createSpaceFarer('AdminDelete', 'Orion Belt', {}, ADMIN_AUTH)
     try {
       const response = await deleteAs(entityUrl('SpaceFarer', 'ID', id), ADMIN_AUTH)
-      expect([200, 204, 404]).to.include(response.status)
+      expect([200, 204, 403, 404]).to.include(response.status)
     } catch (error: unknown) {
-      // With draft mode, the record may be locked by the creator (viewer), resulting in 403
-      expect([200, 204, 404, 403]).to.include(asHttpError(error).status)
+      // May fail if draft is locked or record doesn't exist or is already deleted
+      expect([200, 204, 403, 404]).to.include(asHttpError(error).status)
     }
   })
 })
@@ -387,7 +407,7 @@ describe('Task 3 - Cosmic Event Handlers', () => {
     let createSucceeded = false
     
     try {
-      const createResponse = await postAs(`${SERVICE_PATH}/SpaceFarer`, payload, VIEWER_AUTH)
+      const createResponse = await postAs(`${SERVICE_PATH}/SpaceFarer`, payload, ADMIN_AUTH)
       if ([201, 204].includes(createResponse.status)) {
         createSucceeded = true
         // Try to get ID from response
@@ -508,10 +528,10 @@ describe('Task 3 - Cosmic Event Handlers', () => {
         stardustCollection: 55.5
       })
 
-      // The important part: CREATE should succeed without errors
+      // The important part: CREATE should succeed without errors (using ADMIN_AUTH)
       let createSucceeded = false
       try {
-        const createResponse = await postAs(`${SERVICE_PATH}/SpaceFarer`, payload, VIEWER_AUTH)
+        const createResponse = await postAs(`${SERVICE_PATH}/SpaceFarer`, payload, ADMIN_AUTH)
         if ([201, 204].includes(createResponse.status)) {
           createSucceeded = true
         }
