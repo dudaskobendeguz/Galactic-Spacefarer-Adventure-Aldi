@@ -277,8 +277,3 @@ annotate service.SpaceFarer with {
 annotate service.SpaceFarer with {
     wormholeNavigationSkill @Measures.Unit : '/100'
 };
-// https://github.com/capire/xtravels/blob/b147a1daad27d11352e0d39b525b25ed3241c016/app/travels/capabilities.cds#L3
-// https://cap.cloud.sap/docs/guides/uis/fiori#draft-enabled-entities
-annotate service.SpaceFarer with @odata.draft.enabled: true;
-
-

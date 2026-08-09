@@ -6,6 +6,7 @@ using {galactic.spacefarer.adventure as my} from '../db/schema.cds';
  * - The service is defined in the 'galactic.spacefarer.adventure' namespace and provides access to the core entities of the Galactic Spacefarer Adventure application.
  * - The service is designed to [facilitate CRUD operations](https://cap.cloud.sap/docs/guides/services/served-ootb#serving-crud)
  *  on the SpaceFarer, Department, and Position entities, allowing clients to manage spacefarers and their associated departments and positions.
+    @odata.draft.enabled - https://cap.cloud.sap/docs/guides/uis/fiori#draft-enabled-entities
  * - The service is accessible via the path '/spacefarer-service'.
  */
 @requires: 'authenticated-user'
@@ -22,6 +23,7 @@ service SpaceFarerService @(path: '/spacefarer-service') {
             to   : 'SpacefarerAdmin'
         }
     ]
+    // https://cap.cloud.sap/docs/guides/uis/fiori#draft-enabled-entities
     @odata.draft.enabled
     entity SpaceFarer as projection on my.SpaceFarer excluding {
         createdAt,
