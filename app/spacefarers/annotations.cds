@@ -223,6 +223,14 @@ annotate service.SpaceFarer with @(
             },
         ],
     },
+    UI.HeaderInfo : {
+        Title : {
+            $Type : 'UI.DataField',
+            Value : firstName,
+        },
+        TypeName : '',
+        TypeNamePlural : '',
+    },
 );
 
 annotate service.SpaceFarer with {
@@ -302,6 +310,8 @@ annotate service.SpaceFarer with {
             ],
         },
         Common.ValueListWithFixedValues : true,
+        Common.Text : department.name,
+        Common.Text.@UI.TextArrangement : #TextOnly,
 )};
 
 annotate service.Department with {
@@ -319,6 +329,13 @@ annotate service.Department with {
             ],
         },
         Common.ValueListWithFixedValues : true,
+    )
+};
+
+annotate service.Department with {
+    ID @(
+        Common.Text : name,
+        Common.Text.@UI.TextArrangement : #TextOnly,
     )
 };
 
